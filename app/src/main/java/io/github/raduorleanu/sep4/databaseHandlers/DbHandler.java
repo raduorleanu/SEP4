@@ -41,63 +41,29 @@ public class DbHandler<T> implements IDbHandler {
     @Override
     public void addListeners() {
         dbReference.addValueEventListener(new ChangeEvent());
-//        dbReference.addListenerForSingleValueEvent(new ChangeEventSingle());
     }
-
-//    private class ChangeEventSingle implements ValueEventListener {
-//
-//        @Override
-//        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//            if(dataSnapshot.exists()) {
-//                // toDo: finish this
-//                T t = dataSnapshot.getValue(type);
-//            }
-//        }
-//
-//        private void extractData(Map<String, Object> data) {
-//
-//        }
-//
-//        @Override
-//        public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//        }
-//    }
 
     private class ChangeEvent implements ValueEventListener {
 
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             if(dataSnapshot.exists() && dataSnapshot.getValue() != null) {
-                logLol((Map<String, Object>) dataSnapshot.getValue());
-//                T t = dataSnapshot.getValue(type);
-//                Event event = dataSnapshot.getValue(Event.class);
-//                if(t != null) {
-//                    Log.w("data-snap", t.toString());
-//                } else {
-//                    Log.w("data-snap", "t was null");
-//                }
-//
-//                if(event != null) {
-//                    Log.w("data-snap event", event.toString());
-//                } else {
-//                    Log.w("data-snap", "event was null");
-//                }
 
-                //repository.insertData(t);
+                for(DataSnapshot s : dataSnapshot.getChildren()) {
+                    T value = s.getValue(type);
+
+                    if(value != null) {
+                        repository.insertData(value);
+                    } else {
+                        Log.w("data-snap", "value was null");
+                    }
+                }
             }
         }
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        }
-
-        private void logLol(Map<String, Object> map) {
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                Map m = (Map) entry.getValue();
-                Log.w("map entry", Objects.requireNonNull(m.get("description")).toString());
-            }
         }
     }
 }

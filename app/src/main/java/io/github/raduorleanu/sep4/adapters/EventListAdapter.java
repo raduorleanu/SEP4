@@ -13,31 +13,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.raduorleanu.sep4.R;
+import io.github.raduorleanu.sep4.interfaces.IListAdapter;
 import io.github.raduorleanu.sep4.models.Event;
-import io.github.raduorleanu.sep4.models.User;
 
-public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder> {
+public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder>
+        implements IListAdapter {
 
     private final LayoutInflater mInflater;
-    private List<Event> events;
+    private List<Event> data;
 
     public EventListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
-        this.events = new ArrayList<>();
-//        this.events.add(new Event(new User("Momo"), "karaoke"));
-//        this.events.add(new Event(new User("Mina"), "cooking"));
+        this.data = new ArrayList<>();
+//        this.data.add(new Event(new User("Momo"), "karaoke"));
+//        this.data.add(new Event(new User("Mina"), "cooking"));
     }
 
-    public void setEvents(List<Event> events) {
-        Log.w("events--", events.toString());
-        this.events = events;
+    public void setData(List<Object> objects) {
+        for (Object o : objects) {
+            data.add((Event) o);
+        }
         notifyDataSetChanged();
     }
 
-    public void addEvent(Event event) {
-        Log.w("Adapter", "adding to " + events.size() +  event.toString());
-        events.add(event);
-        notifyItemInserted(events.size() - 1);
+    public void addData(Object event) {
+        Log.w("Adapter", "adding to " + data.size() + event.toString());
+        data.add((Event) event);
+        notifyItemInserted(data.size() - 1);
     }
 
     @NonNull
@@ -49,8 +51,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(@NonNull EventListAdapter.EventViewHolder eventViewHolder, int i) {
-        if (events != null) {
-            final Event event = events.get(i);
+        if (data != null) {
+            final Event event = data.get(i);
             eventViewHolder.eventDescription.setText(event.getDescription());
             eventViewHolder.eventAddress.setText(event.getLocation());
             eventViewHolder.eventUserName.setText(event.getHost().getName());
@@ -61,8 +63,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public int getItemCount() {
-        if(events != null) {
-            return events.size();
+        if (data != null) {
+            return data.size();
         }
         return 0;
     }

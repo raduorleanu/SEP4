@@ -8,13 +8,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.raduorleanu.sep4.adapters.EventListAdapter;
-import io.github.raduorleanu.sep4.databaseHandlers.DbHandler;
 import io.github.raduorleanu.sep4.models.Event;
-import io.github.raduorleanu.sep4.models.User;
-import io.github.raduorleanu.sep4.viewModels.EventViewModel;
+import io.github.raduorleanu.sep4.viewModels.ViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,13 +32,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(eventListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        EventViewModel eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
+        ViewModel<Event> eventViewModel = ViewModelProviders.of(this).get(ViewModel.class);
         eventViewModel.setAdapter(eventListAdapter);
 
         eventViewModel.getEvents().observe(this, new Observer<List<Event>>() {
             @Override
             public void onChanged(@Nullable List<Event> events) {
-                eventListAdapter.setEvents(events);
+                assert events != null;
+                eventListAdapter.setData(new ArrayList<Object>(events));
             }
         });
     }

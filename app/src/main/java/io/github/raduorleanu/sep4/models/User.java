@@ -3,6 +3,7 @@ package io.github.raduorleanu.sep4.models;
 public class User {
 
     private String name;
+    private String username;
     private String address;
     private String email;
     private String password;
@@ -11,6 +12,15 @@ public class User {
     public User(){}
 
     public User(String name, String address, String email, String password, String picture) {
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+        this.picture = picture;
+    }
+
+    public User(String userName, String name, String address, String email, String password, String picture) {
+        this.username = userName;
         this.name = name;
         this.address = address;
         this.email = email;
@@ -60,6 +70,14 @@ public class User {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override

@@ -28,8 +28,6 @@ public class FakeUser {
     private ArrayList<String> streetNames;
     private Random random;
 
-    private ArrayList<User> workers = new ArrayList<>();
-
     public FakeUser(Context context) {
         this.context = context;
         boyNames = readFile("files/boyNames.txt");
@@ -117,16 +115,12 @@ public class FakeUser {
 
     private String randomGirlUsername() {
         String s = "";
-        s += randomAdjective();
-        s += randomGirlName();
         s += randomGirlName();
         return s;
     }
 
     private String randomBoyUsername() {
         String s = "";
-        s += randomAdjective();
-        s += randomBoyName();
         s += randomBoyName();
         return s;
     }

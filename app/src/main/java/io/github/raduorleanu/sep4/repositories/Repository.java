@@ -24,7 +24,7 @@ public class Repository<T> implements IRepository<T> {
     }
 
     // todo: change this to interface
-    public void setAdapter(EventListAdapter adapter) {
+    public void setAdapter(IListAdapter adapter) {
         this.adapter = adapter;
     }
 

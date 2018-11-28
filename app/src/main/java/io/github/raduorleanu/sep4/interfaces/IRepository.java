@@ -8,6 +8,6 @@ public interface IRepository<T> {
 
     void updateData(List<T> dataList);
     void insertData(Object entry);
-    void setAdapter(EventListAdapter adapter);
+    void setAdapter(IListAdapter adapter);
 
 }

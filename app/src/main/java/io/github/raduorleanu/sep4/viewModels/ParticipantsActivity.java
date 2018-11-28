@@ -13,7 +13,7 @@ import io.github.raduorleanu.sep4.models.User;
 public class ParticipantsActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    RecyclerView.Adapter participantsAdapter;
+    ParticipantAdapter participantsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

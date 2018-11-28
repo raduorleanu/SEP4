@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import io.github.raduorleanu.sep4.adapters.EventListAdapter;
+import io.github.raduorleanu.sep4.interfaces.IListAdapter;
 import io.github.raduorleanu.sep4.interfaces.IRepository;
 import io.github.raduorleanu.sep4.models.Event;
 import io.github.raduorleanu.sep4.repositories.Repository;
@@ -23,7 +24,7 @@ public class ViewModel<T> extends AndroidViewModel {
         events = new MutableLiveData<>();
     }
 
-    public void setAdapter(EventListAdapter adapter) {
+    public void setAdapter(IListAdapter adapter) {
         repository.setAdapter(adapter);
     }
 

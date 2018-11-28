@@ -1,6 +1,5 @@
 package io.github.raduorleanu.sep4.models;
 
-import java.util.Date;
 import java.util.List;
 
 public class Event {
@@ -8,7 +7,7 @@ public class Event {
     private User host;
     private List<User> participants;
     private double rating;
-    private Date date;
+    private String date;
     private String description;
     private String location;
     private List<String> requirements;
@@ -20,7 +19,7 @@ public class Event {
         this.description = description;
     }
 
-    public Event(User host, List<User> participants, double rating, Date date, String description, String location, List<String> requirements) {
+    public Event(User host, List<User> participants, double rating, String date, String description, String location, List<String> requirements) {
         this.host = host;
         this.participants = participants;
         this.rating = rating;
@@ -54,11 +53,11 @@ public class Event {
         this.rating = rating;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

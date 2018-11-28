@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         //   Give a number of events and a number of maximum users that will attend that event.
         AddDataToFireBase a = new AddDataToFireBase(17, 8, getBaseContext());
 
-        //addEvents();
+        addEvents();
     }
 
     private void addEvents() {

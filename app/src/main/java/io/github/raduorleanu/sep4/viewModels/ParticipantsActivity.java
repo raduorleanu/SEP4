@@ -1,10 +1,14 @@
 package io.github.raduorleanu.sep4.viewModels;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import java.util.List;
 
 import io.github.raduorleanu.sep4.R;
 import io.github.raduorleanu.sep4.adapters.ParticipantAdapter;
@@ -28,5 +32,13 @@ public class ParticipantsActivity extends AppCompatActivity {
 
         ViewModel<User> userViewModel = ViewModelProviders.of(this).get(ViewModel.class);
         userViewModel.setAdapter(participantsAdapter);
+
+        userViewModel.getEvents().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable List<User> users) {
+                assert users != null;
+
+            }
+        });
     }
 }

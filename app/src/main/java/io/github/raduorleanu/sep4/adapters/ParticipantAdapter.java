@@ -1,6 +1,7 @@
 package io.github.raduorleanu.sep4.adapters;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,10 +51,15 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
+        TextView desc;
+        CardView parentLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.textViewName);
+            desc = itemView.findViewById(R.id.textViewDesc);
+            parentLayout = itemView.findViewById(R.id.parrent_layout);
+
         }
     }
 }

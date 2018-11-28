@@ -30,9 +30,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     }
 
     public void setData(List<Object> objects) {
+        List<Event> events = new ArrayList<>();
         for (Object o : objects) {
-            data.add((Event) o);
+            events.add((Event) o);
         }
+        data = events;
         notifyDataSetChanged();
     }
 

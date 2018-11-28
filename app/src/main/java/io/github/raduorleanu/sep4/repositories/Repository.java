@@ -2,6 +2,7 @@ package io.github.raduorleanu.sep4.repositories;
 
 import android.arch.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.raduorleanu.sep4.adapters.EventListAdapter;
@@ -29,7 +30,9 @@ public class Repository<T> implements IRepository<T> {
 
     @Override
     public void updateData(List<T> dataList) {
-        data.setValue(dataList);
+        List<Object> l = new ArrayList<>();
+        l.addAll(dataList);
+        adapter.setData(l);
     }
 
     @Override

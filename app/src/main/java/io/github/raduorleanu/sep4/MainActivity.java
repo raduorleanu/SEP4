@@ -13,6 +13,7 @@ import java.util.List;
 
 import io.github.raduorleanu.sep4.adapters.EventListAdapter;
 import io.github.raduorleanu.sep4.models.Event;
+import io.github.raduorleanu.sep4.util.AddDataToFireBase;
 import io.github.raduorleanu.sep4.viewModels.ViewModel;
 
 public class MainActivity extends AppCompatActivity {

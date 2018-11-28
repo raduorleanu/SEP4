@@ -29,16 +29,22 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 //        this.data.add(new Event(new User("Mina"), "cooking"));
     }
 
-    public void setData(List<Object> objects) {
+    public void setData(List objects) {
+        List<Event> events = new ArrayList<>();
         for (Object o : objects) {
-            data.add((Event) o);
+            events.add((Event) o);
         }
+        data = events;
         notifyDataSetChanged();
     }
 
     public void addData(Object event) {
         Log.w("Adapter", "adding to " + data.size() + event.toString());
-        data.add((Event) event);
+        Event e = (Event) event;
+        if(!data.contains(e)) {
+            data.add(e);
+        }
+
         notifyItemInserted(data.size() - 1);
     }
 

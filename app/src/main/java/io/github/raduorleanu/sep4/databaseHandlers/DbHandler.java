@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -48,16 +49,19 @@ public class DbHandler<T> implements IDbHandler {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             if(dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                List<T> l = new ArrayList<>();
 
                 for(DataSnapshot s : dataSnapshot.getChildren()) {
                     T value = s.getValue(type);
 
                     if(value != null) {
-                        repository.insertData(value);
+                        //repository.insertData(value);
+                        l.add(value);
                     } else {
                         Log.w("data-snap", "value was null");
                     }
                 }
+                repository.updateData(l);
             }
         }
 

@@ -33,7 +33,7 @@ public class Repository<T> implements IRepository<T> {
     }
 
     @Override
-    public void insertData(T entry) {
+    public void insertData(Object entry) {
         adapter.addData(entry);
     }
 

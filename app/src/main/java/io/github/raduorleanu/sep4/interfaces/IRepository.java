@@ -7,7 +7,7 @@ import io.github.raduorleanu.sep4.adapters.EventListAdapter;
 public interface IRepository<T> {
 
     void updateData(List<T> dataList);
-    void insertData(T entry);
+    void insertData(Object entry);
     void setAdapter(EventListAdapter adapter);
 
 }

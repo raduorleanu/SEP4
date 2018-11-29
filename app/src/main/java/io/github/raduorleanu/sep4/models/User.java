@@ -10,7 +10,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     private String picture;
-    private long _id;
+    private String _id;
 
     public User(){}
 
@@ -20,19 +20,19 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.picture = picture;
-        _id = new Random().nextLong();
+        _id = String.valueOf(new Random().nextLong());
     }
 
     public User(String name) {
         this.name = name;
-        _id = new Random().nextLong();
+        _id = String.valueOf(new Random().nextLong());
     }
 
-    public long get_id() {
+    public String get_id() {
         return _id;
     }
 
-    public void set_id(long _id) {
+    public void set_id(String _id) {
         this._id = _id;
     }
 

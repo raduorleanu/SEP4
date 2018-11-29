@@ -1,5 +1,6 @@
 package io.github.raduorleanu.sep4.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -20,18 +21,17 @@ public class AddDataToFireBase {
     private DatabaseReference reference;
     private int n;
     private int c;
-    private Context context;
+    private FakeUser f;
 
     public AddDataToFireBase(int numberOfEvents, int ceilNumberOfUsersPerEvent, Context context) {
         reference = database.getReference("events");
         n = numberOfEvents;
         c = ceilNumberOfUsersPerEvent;
-        this.context = context;
+        f = new FakeUser(context);
         addData();
     }
 
     private void addData() {
-        FakeUser f = new FakeUser(context);
         Map<String, Event> eventMap = new HashMap<>();
 //        eventMap.put("Event1", new Event(new User("Catalin"), "movie night"));
 //        eventMap.put("Event2", new Event(new User("Kristian"), "learning german"));
@@ -48,6 +48,17 @@ public class AddDataToFireBase {
 
         reference.setValue(eventMap);
         Log.w("db-write", "maybe");
+
+        addRandomComments(events);
+    }
+
+    private void addRandomComments(List<Event> events) {
+        Map<String, List<String>> m = new HashMap<>();
+        Random r = new Random();
+        for(Event e: events) {
+            m.put(e.get_id(), f.getSomeComments(r.nextInt(30)));
+        }
+        database.getReference("comments").setValue(m);
     }
 
 }

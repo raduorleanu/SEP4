@@ -13,14 +13,14 @@ public class Event implements Serializable {
     private String description;
     private String location;
     private List<String> requirements;
-    private long _id;
+    private String _id;
 
     public Event(){}
 
     public Event(User host, String description) {
         this.host = host;
         this.description = description;
-        _id = new Random().nextLong();
+        _id = String.valueOf(new Random().nextLong());
     }
 
     public Event(User host, List<User> participants, double rating, String date, String description, String location, List<String> requirements) {
@@ -31,14 +31,14 @@ public class Event implements Serializable {
         this.description = description;
         this.location = location;
         this.requirements = requirements;
-        _id = new Random().nextLong();
+        _id = String.valueOf(new Random().nextLong());
     }
 
-    public long get_id() {
+    public String get_id() {
         return _id;
     }
 
-    public void set_id(long _id) {
+    public void set_id(String _id) {
         this._id = _id;
     }
 

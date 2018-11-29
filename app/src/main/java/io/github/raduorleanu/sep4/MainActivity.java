@@ -13,6 +13,7 @@ import java.util.List;
 
 import io.github.raduorleanu.sep4.adapters.EventListAdapter;
 import io.github.raduorleanu.sep4.models.Event;
+import io.github.raduorleanu.sep4.util.AddDataToFireBase;
 import io.github.raduorleanu.sep4.viewModels.EventViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //   Give a number of events and a number of maximum users that will attend that event.
-//        AddDataToFireBase a = new AddDataToFireBase(17, 8, getBaseContext());
+        //AddDataToFireBase a = new AddDataToFireBase(17, 8, getBaseContext());
 
         addEvents();
     }

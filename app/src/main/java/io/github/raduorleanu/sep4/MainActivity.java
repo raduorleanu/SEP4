@@ -13,8 +13,7 @@ import java.util.List;
 
 import io.github.raduorleanu.sep4.adapters.EventListAdapter;
 import io.github.raduorleanu.sep4.models.Event;
-import io.github.raduorleanu.sep4.util.AddDataToFireBase;
-import io.github.raduorleanu.sep4.viewModels.ViewModel;
+import io.github.raduorleanu.sep4.viewModels.EventViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //   Give a number of events and a number of maximum users that will attend that event.
-        AddDataToFireBase a = new AddDataToFireBase(17, 8, getBaseContext());
+//        AddDataToFireBase a = new AddDataToFireBase(17, 8, getBaseContext());
 
-        //addEvents();
+        addEvents();
     }
 
     private void addEvents() {
@@ -35,14 +34,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(eventListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        ViewModel<Event> eventViewModel = ViewModelProviders.of(this).get(ViewModel.class);
-        eventViewModel.setAdapter(eventListAdapter);
+        EventViewModel eventEventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
+        eventEventViewModel.setAdapter(eventListAdapter);
 
-        eventViewModel.getEvents().observe(this, new Observer<List<Event>>() {
+        eventEventViewModel.getEvents().observe(this, new Observer<List<Event>>() {
             @Override
             public void onChanged(@Nullable List<Event> events) {
                 assert events != null;
-                eventListAdapter.setData(new ArrayList<Object>(events));
+                eventListAdapter.setData(new ArrayList<>(events));
             }
         });
     }

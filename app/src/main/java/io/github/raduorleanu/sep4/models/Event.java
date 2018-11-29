@@ -1,8 +1,10 @@
 package io.github.raduorleanu.sep4.models;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 
-public class Event {
+public class Event implements Serializable {
 
     private User host;
     private List<User> participants;
@@ -11,12 +13,14 @@ public class Event {
     private String description;
     private String location;
     private List<String> requirements;
+    private long _id;
 
     public Event(){}
 
     public Event(User host, String description) {
         this.host = host;
         this.description = description;
+        _id = new Random().nextLong();
     }
 
     public Event(User host, List<User> participants, double rating, String date, String description, String location, List<String> requirements) {
@@ -27,6 +31,15 @@ public class Event {
         this.description = description;
         this.location = location;
         this.requirements = requirements;
+        _id = new Random().nextLong();
+    }
+
+    public long get_id() {
+        return _id;
+    }
+
+    public void set_id(long _id) {
+        this._id = _id;
     }
 
     public User getHost() {

@@ -1,12 +1,16 @@
 package io.github.raduorleanu.sep4.models;
 
-public class User {
+import java.io.Serializable;
+import java.util.Random;
+
+public class User implements Serializable {
 
     private String name;
     private String address;
     private String email;
     private String password;
     private String picture;
+    private long _id;
 
     public User(){}
 
@@ -16,10 +20,20 @@ public class User {
         this.email = email;
         this.password = password;
         this.picture = picture;
+        _id = new Random().nextLong();
     }
 
     public User(String name) {
         this.name = name;
+        _id = new Random().nextLong();
+    }
+
+    public long get_id() {
+        return _id;
+    }
+
+    public void set_id(long _id) {
+        this._id = _id;
     }
 
     public String getName() {

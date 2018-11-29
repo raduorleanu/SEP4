@@ -146,7 +146,7 @@ public class FakeUser {
 
             events.add(new Event(
                     u,
-                    new ArrayList<User>(),
+//                    new ArrayList<User>(),
                     Integer.parseInt(randomNumber(2)) / 10,
                     randomDayInTheFuture(),
                     randomAdjective() + " " + randomAdjective(),
@@ -156,12 +156,12 @@ public class FakeUser {
         return events;
     }
 
-    public void addUsersToEvent(Event event, int numberOfUsers) {
-        for(int i = 0; i < numberOfUsers; i++) {
-            User u = createFullDetailsUser();
-            event.getParticipants().add(u);
-        }
-    }
+//    public void addUsersToEvent(Event event, int numberOfUsers) {
+//        for(int i = 0; i < numberOfUsers; i++) {
+//            User u = createFullDetailsUser();
+//            event.getParticipants().add(u);
+//        }
+//    }
 
     public List<String> getSomeComments(int numberOfComments) {
         List<String> co = new ArrayList<>();

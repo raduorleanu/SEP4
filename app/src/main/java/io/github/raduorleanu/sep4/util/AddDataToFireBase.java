@@ -1,10 +1,8 @@
 package io.github.raduorleanu.sep4.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
@@ -18,47 +16,48 @@ import io.github.raduorleanu.sep4.models.User;
 public class AddDataToFireBase {
 
     private FirebaseDatabase database = FirebaseProvider.getDb();
-    private DatabaseReference reference;
     private int n;
     private int c;
     private FakeUser f;
 
-    public AddDataToFireBase(int numberOfEvents, int ceilNumberOfUsersPerEvent, Context context) {
-        reference = database.getReference("events");
+    public AddDataToFireBase(int numberOfEvents, int ceilNumberOfUsersAndCommentsPerEvent, Context context) {
         n = numberOfEvents;
-        c = ceilNumberOfUsersPerEvent;
+        c = ceilNumberOfUsersAndCommentsPerEvent;
         f = new FakeUser(context);
         addData();
     }
 
     private void addData() {
         Map<String, Event> eventMap = new HashMap<>();
-//        eventMap.put("Event1", new Event(new User("Catalin"), "movie night"));
-//        eventMap.put("Event2", new Event(new User("Kristian"), "learning german"));
-//        eventMap.put("Event3", new Event(new User("Yusuf"), "grill"));
-//        eventMap.put("Event4", new Event(new User("Catalin"), "doing nothing together"));
 
         List<Event> events = f.getEvents(n);
-        Random r = new Random();
 
         for(Event e : events) {
-            f.addUsersToEvent(e, r.nextInt(c));
-            eventMap.put(e.getDescription(), e);
+            eventMap.put(e.get_id(), e);
         }
-
-        reference.setValue(eventMap);
+        database.getReference("events").setValue(eventMap);
         Log.w("db-write", "maybe");
 
         addRandomComments(events);
+        addRandomAttendees(events);
     }
 
     private void addRandomComments(List<Event> events) {
         Map<String, List<String>> m = new HashMap<>();
         Random r = new Random();
         for(Event e: events) {
-            m.put(e.get_id(), f.getSomeComments(r.nextInt(30)));
+            m.put(e.get_id(), f.getSomeComments(r.nextInt(c)));
         }
         database.getReference("comments").setValue(m);
+    }
+
+    private void addRandomAttendees(List<Event> events) {
+        Map<String, List<User>> m = new HashMap<>();
+        Random r = new Random();
+        for(Event e: events) {
+            m.put(e.get_id(), f.getUsers(r.nextInt(c)));
+        }
+        database.getReference("attendees").setValue(m);
     }
 
 }

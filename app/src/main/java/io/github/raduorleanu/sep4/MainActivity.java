@@ -24,12 +24,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //   Give a number of events and a number of maximum users that will attend that event.
+        // todo: COMMENT THIS, should only run once to generate database. Uncomment populateEventsView() when commenting this
         //AddDataToFireBase a = new AddDataToFireBase(17, 8, getBaseContext());
 
-        addEvents();
+        // todo: DON'T FORGET TO comment populateEventsView() when adding data to firebase and uncomment after
+        populateEventsView();
     }
 
-    private void addEvents() {
+    private void populateEventsView() {
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final EventListAdapter eventListAdapter = new EventListAdapter(this);
         recyclerView.setAdapter(eventListAdapter);

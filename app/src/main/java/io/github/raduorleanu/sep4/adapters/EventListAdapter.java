@@ -37,7 +37,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     public void removeData(Event event) {
         for(int i = 0; i < data.size(); i++) {
-            if(data.get(i).get_id() == event.get_id()) {
+            if(data.get(i).get_id().equals(event.get_id())) {
                 data.remove(i);
                 notifyItemChanged(i);
             }

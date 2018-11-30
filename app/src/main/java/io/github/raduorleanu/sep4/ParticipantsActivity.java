@@ -23,13 +23,12 @@ public class ParticipantsActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ParticipantAdapter participantsAdapter;
+    private ArrayList<User> participents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.participant_recycle_view);
 
-        recyclerView = findViewById(R.id.participantsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         participantsAdapter = new ParticipantAdapter(this);
@@ -48,9 +47,15 @@ public class ParticipantsActivity extends AppCompatActivity {
 
     }
 
+    private void initRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.participantsRecyclerView);
+        ParticipantAdapter adapter = new ParticipantAdapter(this, participents);
+    }
+
     private void getIncommingIntent() {
         if(getIntent().hasExtra("clicked")) {
             Event event = (Event)getIntent().getSerializableExtra("clicked");
+            participents = event.get
         }
     }
 }

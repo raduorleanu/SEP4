@@ -9,7 +9,6 @@ import java.util.List;
 
 import io.github.raduorleanu.sep4.adapters.ParticipantAdapter;
 import io.github.raduorleanu.sep4.models.User;
-import io.github.raduorleanu.sep4.repositories.EventRepository;
 import io.github.raduorleanu.sep4.repositories.ParticipantRepository;
 
 public class ParticipantViewModel extends AndroidViewModel {

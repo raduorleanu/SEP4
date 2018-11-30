@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,26 +18,28 @@ import io.github.raduorleanu.sep4.databaseHandlers.ParticipantDbHandler;
 import io.github.raduorleanu.sep4.interfaces.IListAdapter;
 import io.github.raduorleanu.sep4.models.User;
 
+import static android.support.constraint.Constraints.TAG;
+
 public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.ViewHolder> {
 
     private final LayoutInflater minflater;
     private List<User> data;
 
-    public ParticipantAdapter(Context context) {
-        data = new ArrayList<>();
+    public ParticipantAdapter(Context context, List<User> users) {
+        data = users;
         minflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.participant_recycle_item, viewGroup, false);
+        View view = minflater.inflate(R.layout.participant_recycle_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        Log.d(TAG, "onBindViewHolder: called");
         if(data != null) {
             final User user = data.get(i);
             viewHolder.name.setText(user.getName());
@@ -45,7 +48,7 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
 
     @Override
     public int getItemCount() {
-        return 0;
+        return data.size();
     }
 
 

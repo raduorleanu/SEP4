@@ -2,6 +2,7 @@ package io.github.raduorleanu.sep4.databaseHandlers;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -16,6 +17,8 @@ import java.util.List;
 import io.github.raduorleanu.sep4.models.User;
 import io.github.raduorleanu.sep4.repositories.ParticipantRepository;
 import io.github.raduorleanu.sep4.util.FirebaseProvider;
+
+import static android.content.ContentValues.TAG;
 
 public class ParticipantDbHandler {
 
@@ -82,11 +85,17 @@ public class ParticipantDbHandler {
                 List<User> temp = new ArrayList<>();
 
                 for (DataSnapshot data: dataSnapshot.getChildren()) {
-                    User user = data.getValue(User.class);
+                    for (DataSnapshot ds: data.getChildren()) {
+                        User user = ds.getValue(User.class);
 
-                    if (user != null) {
-                        temp.add(user);
+
+
+                        if (user != null) {
+                            Log.e(TAG, "User were added");
+                            temp.add(user);
+                        }
                     }
+
                 }
                 repository.updateData(temp);
             }

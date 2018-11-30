@@ -8,16 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.raduorleanu.sep4.R;
 import io.github.raduorleanu.sep4.interfaces.IListAdapter;
+import io.github.raduorleanu.sep4.models.User;
 
-public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.ViewHolder>
-        implements IListAdapter {
+public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.ViewHolder> {
+
+    List<User> data;
 
     public ParticipantAdapter() {
-
+        data = new ArrayList<>();
     }
 
     @NonNull
@@ -38,13 +41,17 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
         return 0;
     }
 
-    @Override
-    public void setData(List<Object> objects) {
+
+    public void setData(List<User> users) {
 
     }
 
-    @Override
-    public void addData(Object event) {
+
+    public void addData(User user) {
+
+    }
+
+    public void removeData(User user) {
 
     }
 

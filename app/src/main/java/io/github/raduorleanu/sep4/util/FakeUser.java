@@ -26,6 +26,7 @@ public class FakeUser {
     private ArrayList<String> familyNames;
     private ArrayList<String> adjectives;
     private ArrayList<String> streetNames;
+    private ArrayList<String> comments;
     private Random random;
 
     public FakeUser(Context context) {
@@ -37,6 +38,7 @@ public class FakeUser {
         familyNames = readFile("files/familyNames.txt");
         adjectives = readFile("files/adj.txt");
         streetNames = readFile("files/streetNames.txt");
+        comments = readFile("files/comments.txt");
         random = new Random();
     }
 
@@ -144,7 +146,7 @@ public class FakeUser {
 
             events.add(new Event(
                     u,
-                    new ArrayList<User>(),
+//                    new ArrayList<User>(),
                     Integer.parseInt(randomNumber(2)) / 10,
                     randomDayInTheFuture(),
                     randomAdjective() + " " + randomAdjective(),
@@ -154,10 +156,18 @@ public class FakeUser {
         return events;
     }
 
-    public void addUsersToEvent(Event event, int numberOfUsers) {
-        for(int i = 0; i < numberOfUsers; i++) {
-            User u = createFullDetailsUser();
-            event.getParticipants().add(u);
+//    public void addUsersToEvent(Event event, int numberOfUsers) {
+//        for(int i = 0; i < numberOfUsers; i++) {
+//            User u = createFullDetailsUser();
+//            event.getParticipants().add(u);
+//        }
+//    }
+
+    public List<String> getSomeComments(int numberOfComments) {
+        List<String> co = new ArrayList<>();
+        for(int i = 0; i < numberOfComments; i++) {
+            co.add(comments.get(random.nextInt(comments.size() - 2)));
         }
+        return co;
     }
 }

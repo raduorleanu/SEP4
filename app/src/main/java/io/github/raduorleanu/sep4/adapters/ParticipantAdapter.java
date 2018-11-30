@@ -1,5 +1,6 @@
 package io.github.raduorleanu.sep4.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,15 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.raduorleanu.sep4.R;
+import io.github.raduorleanu.sep4.databaseHandlers.ParticipantDbHandler;
 import io.github.raduorleanu.sep4.interfaces.IListAdapter;
 import io.github.raduorleanu.sep4.models.User;
 
 public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.ViewHolder> {
 
-    List<User> data;
+    private final LayoutInflater minflater;
+    private List<User> data;
 
-    public ParticipantAdapter() {
+    public ParticipantAdapter(Context context) {
         data = new ArrayList<>();
+        minflater = LayoutInflater.from(context);
     }
 
     @NonNull
@@ -33,7 +37,10 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
+        if(data != null) {
+            final User user = data.get(i);
+            viewHolder.name.setText(user.getName());
+        }
     }
 
     @Override
@@ -43,28 +50,33 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
 
 
     public void setData(List<User> users) {
-
+        data = users;
+        notifyDataSetChanged();
     }
 
 
     public void addData(User user) {
-
+        data.add(user);
+        notifyItemInserted(data.size() - 1);
     }
 
     public void removeData(User user) {
-
+        for(int i = 0; i < data.size(); i++) {
+            if(data.get(i).get_id().equals(user.get_id())) {
+                data.remove(i);
+                notifyItemChanged(i);
+            }
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name;
-        TextView desc;
-        CardView parentLayout;
+        private final TextView name;
+        private final CardView parentLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.textViewName);
-            desc = itemView.findViewById(R.id.textViewDesc);
             parentLayout = itemView.findViewById(R.id.parrent_layout);
 
         }

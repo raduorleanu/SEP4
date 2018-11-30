@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import java.util.List;
 
 import io.github.raduorleanu.sep4.adapters.ParticipantAdapter;
+import io.github.raduorleanu.sep4.databaseHandlers.ParticipantDbHandler;
 import io.github.raduorleanu.sep4.models.User;
 
 public class ParticipantRepository {
@@ -12,9 +13,9 @@ public class ParticipantRepository {
     private MutableLiveData<List<User>> data;
     private ParticipantAdapter adapter;
 
-    public ParticipantRepository(MutableLiveData<List<User>> data, ParticipantAdapter adapter) {
-        this.data = data;
-        this.adapter = adapter;
+    public ParticipantRepository() {
+        data = new MutableLiveData<>();
+        new ParticipantDbHandler(this, "attendees");
     }
 
     public void setAdapter(ParticipantAdapter adapter) {

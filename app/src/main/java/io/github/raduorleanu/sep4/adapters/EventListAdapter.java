@@ -1,6 +1,7 @@
 package io.github.raduorleanu.sep4.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.raduorleanu.sep4.ParticipantsActivity;
 import io.github.raduorleanu.sep4.R;
 import io.github.raduorleanu.sep4.models.Event;
 
@@ -22,10 +24,12 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     private final LayoutInflater mInflater;
     private List<Event> data;
+    private Context mContext;
 
     public EventListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
         this.data = new ArrayList<>();
+        mContext = context;
 //        this.data.add(new Event(new User("Momo"), "karaoke"));
 //        this.data.add(new Event(new User("Mina"), "cooking"));
     }
@@ -98,6 +102,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             Log.w("event_description -> ", clickedEvent.getDescription());
             Log.w("view_event_username -> ", eventViewHolder.eventUserName.getText().toString());
             eventViewHolder.eventItem.setBackgroundColor(Color.GREEN);
+
+            Intent intent = new Intent(mContext, ParticipantsActivity.class);
+            intent.putExtra("clicked", clickedEvent);
+            mContext.startActivity(intent);
         }
     }
 

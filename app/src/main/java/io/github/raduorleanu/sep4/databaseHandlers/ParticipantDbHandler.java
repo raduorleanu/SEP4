@@ -41,8 +41,11 @@ public class ParticipantDbHandler {
         @Override
         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
             if (dataSnapshot.exists()) {
-                User user = dataSnapshot.getValue(User.class);
-                repository.insertData(user);
+                for (DataSnapshot temp : dataSnapshot.getChildren()) {
+                    User user = temp.getValue(User.class);
+                    repository.insertData(user);
+                }
+
             }
         }
 
@@ -75,7 +78,9 @@ public class ParticipantDbHandler {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             if(dataSnapshot.exists() && dataSnapshot != null){
+
                 List<User> temp = new ArrayList<>();
+
                 for (DataSnapshot data: dataSnapshot.getChildren()) {
                     User user = data.getValue(User.class);
 

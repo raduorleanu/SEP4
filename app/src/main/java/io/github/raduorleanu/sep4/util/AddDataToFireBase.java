@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class AddDataToFireBase {
 
         List<Event> events = f.getEvents(n);
 
-        for(Event e : events) {
+        for (Event e : events) {
             eventMap.put(e.get_id(), e);
         }
         database.getReference("events").setValue(eventMap);
@@ -45,7 +46,7 @@ public class AddDataToFireBase {
     private void addRandomComments(List<Event> events) {
         Map<String, List<String>> m = new HashMap<>();
         Random r = new Random();
-        for(Event e: events) {
+        for (Event e : events) {
             m.put(e.get_id(), f.getSomeComments(r.nextInt(c)));
         }
         database.getReference("comments").setValue(m);
@@ -54,10 +55,25 @@ public class AddDataToFireBase {
     private void addRandomAttendees(List<Event> events) {
         Map<String, List<User>> m = new HashMap<>();
         Random r = new Random();
-        for(Event e: events) {
+        for (Event e : events) {
             m.put(e.get_id(), f.getUsers(r.nextInt(c)));
         }
         database.getReference("attendees").setValue(m);
+        addMyFriends(m);
+    }
+
+    private void addMyFriends(Map<String, List<User>> all) {
+        Map<String, List<User>> friends = new HashMap<>();
+        List<User> u = new ArrayList<>();
+        for (Map.Entry<String, List<User>> entry : all.entrySet()) {
+            for(User user: entry.getValue()) {
+                if(!u.contains(user)) {
+                    u.add(user);
+                }
+            }
+        }
+        friends.put(Constants.currentUser.get_id(), u);
+        database.getReference("friends").setValue(friends);
     }
 
 }

@@ -1,32 +1,45 @@
 package io.github.raduorleanu.sep4.models;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 
-public class Event {
+public class Event implements Serializable {
 
     private User host;
-    private List<User> participants;
+    //private List<User> participants;
     private double rating;
     private String date;
     private String description;
     private String location;
     private List<String> requirements;
+    private String _id;
 
     public Event(){}
 
     public Event(User host, String description) {
         this.host = host;
         this.description = description;
+        _id = String.valueOf(new Random().nextLong());
     }
 
-    public Event(User host, List<User> participants, double rating, String date, String description, String location, List<String> requirements) {
+    public Event(User host, double rating, String date, String description, String location, List<String> requirements) {
         this.host = host;
-        this.participants = participants;
+        //this.participants = participants;
         this.rating = rating;
         this.date = date;
         this.description = description;
         this.location = location;
         this.requirements = requirements;
+        _id = String.valueOf(new Random().nextLong());
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public User getHost() {
@@ -37,13 +50,13 @@ public class Event {
         this.host = host;
     }
 
-    public List<User> getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(List<User> participants) {
-        this.participants = participants;
-    }
+//    public List<User> getParticipants() {
+//        return participants;
+//    }
+//
+//    public void setParticipants(List<User> participants) {
+//        this.participants = participants;
+//    }
 
     public double getRating() {
         return rating;
@@ -89,7 +102,7 @@ public class Event {
     public String toString() {
         return "Event{" +
                 "host=" + host +
-                ", participants=" + participants +
+//                ", participants=" + participants +
                 ", rating=" + rating +
                 ", date=" + date +
                 ", description='" + description + '\'' +

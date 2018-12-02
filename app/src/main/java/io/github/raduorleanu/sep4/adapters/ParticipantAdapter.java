@@ -24,10 +24,12 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
 
     private final LayoutInflater minflater;
     private List<User> data;
+    private String eventID;
 
-    public ParticipantAdapter(Context context, List<User> users) {
-        data = users;
+    public ParticipantAdapter(Context context, String eventID) {
         minflater = LayoutInflater.from(context);
+        this.data = new ArrayList<>();
+        this.eventID = eventID;
     }
 
     @NonNull
@@ -39,8 +41,8 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Log.d(TAG, "onBindViewHolder: called");
-        if(data != null) {
+        Log.e(TAG, "onBindViewHolder: called");
+        if (data != null) {
             final User user = data.get(i);
             viewHolder.name.setText(user.getName());
         }
@@ -64,8 +66,8 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
     }
 
     public void removeData(User user) {
-        for(int i = 0; i < data.size(); i++) {
-            if(data.get(i).get_id().equals(user.get_id())) {
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).get_id().equals(user.get_id())) {
                 data.remove(i);
                 notifyItemChanged(i);
             }
@@ -76,6 +78,7 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
 
         private final TextView name;
         private final CardView parentLayout;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 

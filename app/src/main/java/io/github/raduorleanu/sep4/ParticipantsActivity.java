@@ -21,17 +21,22 @@ import io.github.raduorleanu.sep4.viewModels.ParticipantViewModel;
 
 public class ParticipantsActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
     ParticipantAdapter participantsAdapter;
-    private ArrayList<User> participents;
+    private String eventID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.participant_recycle_view);
 
+        getIncommingIntent();
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.participantsRecyclerView);
+        participantsAdapter = new ParticipantAdapter(this, eventID);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        participantsAdapter = new ParticipantAdapter(this);
         recyclerView.setAdapter(participantsAdapter);
 
         ParticipantViewModel participantViewModel = ViewModelProviders.of(this).get(ParticipantViewModel.class);
@@ -44,18 +49,12 @@ public class ParticipantsActivity extends AppCompatActivity {
                 participantsAdapter.setData(new ArrayList<>(users));
             }
         });
-
-    }
-
-    private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.participantsRecyclerView);
-        ParticipantAdapter adapter = new ParticipantAdapter(this, participents);
     }
 
     private void getIncommingIntent() {
-        if(getIntent().hasExtra("clicked")) {
-            Event event = (Event)getIntent().getSerializableExtra("clicked");
-            participents = event.get
+        if (getIntent().hasExtra("clicked")) {
+            Event event = (Event) getIntent().getSerializableExtra("clicked");
+            eventID = event.get_id();
         }
     }
 }

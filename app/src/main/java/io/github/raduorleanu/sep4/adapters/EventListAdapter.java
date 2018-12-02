@@ -20,6 +20,8 @@ import io.github.raduorleanu.sep4.ParticipantsActivity;
 import io.github.raduorleanu.sep4.R;
 import io.github.raduorleanu.sep4.models.Event;
 
+import static android.support.constraint.Constraints.TAG;
+
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder> {
 
     private final LayoutInflater mInflater;
@@ -63,6 +65,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(@NonNull EventListAdapter.EventViewHolder eventViewHolder, int i) {
+        Log.e(TAG, "onBindViewHolder: called");
         if (data != null) {
             final Event event = data.get(i);
             eventViewHolder.eventDescription.setText(event.getDescription());

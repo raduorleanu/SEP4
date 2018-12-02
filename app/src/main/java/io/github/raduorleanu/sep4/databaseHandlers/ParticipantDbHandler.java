@@ -48,7 +48,6 @@ public class ParticipantDbHandler {
                     User user = temp.getValue(User.class);
                     repository.insertData(user);
                 }
-
             }
         }
 

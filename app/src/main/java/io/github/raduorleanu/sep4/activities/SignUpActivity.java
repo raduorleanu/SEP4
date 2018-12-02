@@ -1,5 +1,6 @@
 package io.github.raduorleanu.sep4.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import io.github.raduorleanu.sep4.MainActivity;
 import io.github.raduorleanu.sep4.R;
 import io.github.raduorleanu.sep4.models.User;
 import io.github.raduorleanu.sep4.util.AuthHandler;
@@ -52,8 +54,9 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!handler.checkNewUName(unameEdit.getText().toString())) {toastMessage("Username is taken"); return;}
+//                if(!handler.checkNewUName(unameEdit.getText().toString())) {toastMessage("Username is taken"); return;}
                 createAccount(emailEdit.getText().toString(), passEdit.getText().toString());
+                signIn(emailEdit.getText().toString(), passEdit.getText().toString());
             }
         });
     }
@@ -67,8 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithUsername:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            addUserToDb();
-                            finish();
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithUsername:failure", task.getException());
@@ -80,6 +82,30 @@ public class SignUpActivity extends AppCompatActivity {
                 });
     }
 
+    public void signIn(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            addUserToDb();
+                            goToMain();
+                            finish();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
     private void toastMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -87,5 +113,10 @@ public class SignUpActivity extends AppCompatActivity {
     private void addUserToDb(){
         User newUser = new User(unameEdit.getText().toString(),nameEdit.getText().toString(), addrEdit.getText().toString(),emailEdit.getText().toString(),passEdit.getText().toString() ,"");
         handler.createUser(newUser);
+    }
+
+    private void goToMain() {
+        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

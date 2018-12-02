@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.Executor;
 
+import io.github.raduorleanu.sep4.MainActivity;
 import io.github.raduorleanu.sep4.activities.LoginActivity;
 import io.github.raduorleanu.sep4.models.User;
 
@@ -25,11 +26,11 @@ public class AuthHandler {
 
     private static final String TAG = "AuthHandler";
     private FirebaseAuth mAuth;
-    private FirebaseUser user;
     private FirebaseDatabase database;
     private DatabaseReference userRef;
 
     public AuthHandler() {
+        mAuth = FirebaseAuth.getInstance();
         // Write a message to the database
         database = FirebaseDatabase.getInstance();
         userRef = database.getReference("Users");
@@ -37,16 +38,18 @@ public class AuthHandler {
     }
 
     public void createUser(User newUser) {
-        userRef.child(newUser.getUsername()).setValue(newUser);
+        userRef.child(mAuth.getCurrentUser().getUid()).setValue(newUser);
     }
 
-    public boolean checkUser(final String username, String pass) {
+    public boolean checkUser( final String username, final String pass) {
         final boolean[] exists = {false};
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                FirebaseUser curr = mAuth.getCurrentUser();
+
                 for (DataSnapshot dbName: dataSnapshot.getChildren()) {
-                    if (dbName.getKey().equals(username)) exists[0] = true;
+                    if ((dbName.child(curr.getUid()).child("username").getValue() == username) && (dbName.child(curr.getUid()).child("password").getValue() == pass)) exists[0] = true;
                 }
             }
 
@@ -64,7 +67,25 @@ public class AuthHandler {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dbName: dataSnapshot.getChildren()) {
-                    if (dbName.getKey().equals(newUname)) exists[0] = true;
+                    if (dbName.child(mAuth.getCurrentUser().getUid()).child("Username").getValue().toString() == newUname) exists[0] = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return exists[0];
+    }
+
+    public String getUsername(final FirebaseUser uName) {
+        final String[] exists = {};
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dbName: dataSnapshot.getChildren()) {
+                    exists[0] = dbName.child(uName.getUid()).child("username").getValue().toString();
                 }
             }
 
@@ -77,25 +98,11 @@ public class AuthHandler {
     }
 
 
-    public void openMyProfile(FirebaseUser currentUser) {
-//        toDo - Either implement with Uid or find iteration for children
-// boolean[] exists;
-//        String userMail = currentUser.getEmail();
-//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//    public User openMyProfile(FirebaseUser currentUser) {
+////        toDo - Either implement with Uid or find iteration for children
 //
-//                for (DataSnapshot dbName: dataSnapshot.getChildren()) {
-//                    if (dbName.getChildren()) exists[0] = true;
-//                }
-//            }
+//        userRef.child(currentUser.getUid())
 //
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//        Intent intent = new Intent(LoginActivity.class, ProfileActivity.class);
-//        intent.putExtra("Deets", )
-    }
+//        return null;
+//    }
 }

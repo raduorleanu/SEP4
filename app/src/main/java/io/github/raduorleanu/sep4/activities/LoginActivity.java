@@ -54,12 +54,12 @@ public class LoginActivity extends AppCompatActivity {
                 String uName = username.getText().toString().trim();
                 String cpass = password.getText().toString().trim();
 
-                if (isLoggedIn()) goToMain();
+//                if (isLoggedIn()) goToMain();
 
                if (isAUser(uName,cpass)) goToMain();
-               else toastMessage("You didn't fill in all the fields.");
+//               else toastMessage("You didn't fill in all the fields.");
 
-               handler.openMyProfile(mAuth.getCurrentUser());
+//               handler.openMyProfile(mAuth.getCurrentUser());
 //                if (!uName.equals("") && !cpass.equals("")) {
 //                    signIn(uName, cpass);
 //                } else {
@@ -90,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
     public boolean isAUser(String username, String pass){
         return handler.checkUser(username, pass);
     }
+
     public void signIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -99,9 +100,10 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             assert user != null;
-                            toastMessage(user.getEmail() + " is signed in");
+                            toastMessage(user.getDisplayName() + " is signed in");
                             clearFields();
                             goToMain();
+                            finish();
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             toastMessage("Authentication failed.");

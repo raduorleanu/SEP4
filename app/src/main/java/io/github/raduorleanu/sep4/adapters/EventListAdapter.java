@@ -126,6 +126,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         public void onClick(View view) {
             Intent intent = new Intent(context, AddFriendsToEventActivity.class);
             intent.putExtra("eventDescription", clickedEvent.getDescription());
+            intent.putExtra("event", clickedEvent);
             context.startActivity(intent);
         }
     }

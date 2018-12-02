@@ -1,18 +1,37 @@
 package io.github.raduorleanu.sep4.databaseHandlers;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.raduorleanu.sep4.models.Event;
 import io.github.raduorleanu.sep4.models.User;
 import io.github.raduorleanu.sep4.repositories.AddUsersToEventUserSwapRepository;
+import io.github.raduorleanu.sep4.util.Constants;
+import io.github.raduorleanu.sep4.util.FirebaseProvider;
 
 public class UserDbHandler {
 
     private AddUsersToEventUserSwapRepository repository;
 
-    public UserDbHandler(AddUsersToEventUserSwapRepository repository) {
+    // the event attached to started the new activity
+    private Event event;
+
+    public UserDbHandler(AddUsersToEventUserSwapRepository repository, Event event) {
         this.repository = repository;
-        addData();
+        this.event = event;
+        //addData();
+        getDataFromDb();
     }
 
     private void addData() {
@@ -27,5 +46,77 @@ public class UserDbHandler {
         repository.updateNotGoing(l1);
         repository.updateGoing(l2);
     }
+
+    private void getDataFromDb() {
+        FirebaseDatabase db = FirebaseProvider.getDb();
+        final DatabaseReference ref = db.getReference("friends");
+        ref.child(Constants.currentUser.get_id()).addValueEventListener(new FriendsOfUser());
+    }
+
+    class AlreadyGoing implements ValueEventListener {
+
+        private List<User> allFriends;
+
+        AlreadyGoing(List<User> allFriends) {
+            this.allFriends = allFriends;
+        }
+
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            //Log.w("asdAASD", "query_ing -> " + event.get_id());
+            if(dataSnapshot.exists()) {
+                //Log.w("asdAASD", "it exists -> " + event.get_id());
+                List<User> alreadyGoing = new ArrayList<>();
+                for(DataSnapshot value: dataSnapshot.getChildren()) {
+                    User u = value.getValue(User.class);
+
+                    if(u != null) {
+                        //Log.w("asdAASD", "one of the already going -> " + u.toString());
+
+                        alreadyGoing.add(u);
+                    }
+                }
+                repository.updateGoing(alreadyGoing);
+                repository.updateNotGoing(filterUsers(alreadyGoing));
+            } else {
+                repository.updateNotGoing(allFriends);
+                repository.updateGoing(new ArrayList<User>());
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+
+        private List<User> filterUsers(List<User> alreadyGoing) {
+            List<User> filtered = new ArrayList<>(allFriends);
+            filtered.removeAll(alreadyGoing);
+            return filtered;
+        }
+    }
+
+    class FriendsOfUser implements ValueEventListener {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if(dataSnapshot.exists()) {
+                List<User> friends = new ArrayList<>();
+                for(DataSnapshot value: dataSnapshot.getChildren()) {
+                    User u = value.getValue(User.class);
+                    assert u != null;
+                    friends.add(u);
+                }
+                FirebaseDatabase db = FirebaseProvider.getDb();
+                final DatabaseReference ref = db.getReference("attendees");
+                ref.child(event.get_id()).addValueEventListener(new AlreadyGoing(friends));
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    }
+
 
 }

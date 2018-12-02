@@ -6,6 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/add_people_apply_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/add_people_to_event_apply_button"
+        android:textColor="#fff"
+        android:background="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/add_people_to_event_description"
         android:layout_width="match_parent"
@@ -30,7 +44,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/add_people_to_event_friends_that_are_not_going"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintHorizontal_bias="0.532"
+        app:layout_constraintHorizontal_bias="0.018"
         app:layout_constraintStart_toStartOf="@+id/add_people_to_event_description"
         app:layout_constraintTop_toBottomOf="@+id/add_people_to_event_description" />
 
@@ -43,7 +57,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/add_people_to_event_already_going"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toBottomOf="@+id/add_people_to_event_description" />
 
@@ -65,12 +79,12 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_added_friends"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recyclerview_all_friends"
+        app:layout_constraintStart_toEndOf="@id/recyclerview_all_friends"
         app:layout_constraintTop_toBottomOf="@+id/add_people_to_event_already_going"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent=".45"

@@ -58,6 +58,10 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         notifyItemInserted(users.size() - 1);
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

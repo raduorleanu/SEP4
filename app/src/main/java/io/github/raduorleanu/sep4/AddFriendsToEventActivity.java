@@ -1,14 +1,17 @@
 package io.github.raduorleanu.sep4;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,6 +30,9 @@ public class AddFriendsToEventActivity  extends AppCompatActivity {
     private TextView allFriends;
     private RecyclerView going;
     private RecyclerView notGoing;
+    private Button applyButton;
+
+    private Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +43,13 @@ public class AddFriendsToEventActivity  extends AppCompatActivity {
         allFriends = findViewById(R.id.add_people_to_event_all_friends);
         going = findViewById(R.id.recyclerview_added_friends);
         notGoing = findViewById(R.id.recyclerview_all_friends);
+        applyButton = findViewById(R.id.add_people_apply_button);
 
         String message = "something went wrong";
 
         Intent intent = getIntent();
         if(intent != null) {
+            event = (Event) intent.getSerializableExtra("event");
             Bundle b = intent.getExtras();
             if(b != null) {
                 message = "Add people for: " + b.getString("eventDescription");
@@ -49,7 +57,35 @@ public class AddFriendsToEventActivity  extends AppCompatActivity {
         }
 
         description.setText(message);
+        fixDamnLayout();
         populateUserViews();
+    }
+
+    private void fixDamnLayout() {
+
+        // get display size in pixels
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int height = size.y;
+
+        // get recycle list layout
+        ViewGroup.LayoutParams params1 = notGoing.getLayoutParams();
+        ViewGroup.LayoutParams params2 = going.getLayoutParams();
+
+        // get 80% of screen height
+        Double h = height * 0.8;
+        int res = h.intValue();
+
+        // remove clipping -- list item height is 64 pixels
+        int reminder = res % 64;
+        int nicelySplit = res - reminder;
+
+        // set layout height
+        params1.height = nicelySplit;
+        params2.height = nicelySplit;
+        notGoing.setLayoutParams(params1);
+        going.setLayoutParams(params2);
     }
 
     public void populateUserViews() {
@@ -91,7 +127,7 @@ public class AddFriendsToEventActivity  extends AppCompatActivity {
             }
         });
 
-        AddUsersToEventUserSwapRepository.getRepository().simulate();
+        AddUsersToEventUserSwapRepository.getRepository().fetchDataFromDatabase(event, applyButton);
 
     }
 }

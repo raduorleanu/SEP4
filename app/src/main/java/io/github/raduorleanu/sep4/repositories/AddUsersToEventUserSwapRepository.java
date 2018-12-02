@@ -1,17 +1,22 @@
 package io.github.raduorleanu.sep4.repositories;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.List;
 
 import io.github.raduorleanu.sep4.adapters.UserListAdapter;
+import io.github.raduorleanu.sep4.databaseHandlers.AddUsersDbHandler;
 import io.github.raduorleanu.sep4.databaseHandlers.UserDbHandler;
+import io.github.raduorleanu.sep4.models.Event;
 import io.github.raduorleanu.sep4.models.User;
 
 public class AddUsersToEventUserSwapRepository {
 
-    private MutableLiveData<List<User>> going;
-    private MutableLiveData<List<User>> notGoing;
+//    private MutableLiveData<List<User>> going;
+//    private MutableLiveData<List<User>> notGoing;
 
     private UserListAdapter goingAdapter;
     private UserListAdapter notGoingAdapter;
@@ -19,8 +24,8 @@ public class AddUsersToEventUserSwapRepository {
     private static AddUsersToEventUserSwapRepository repository;
 
     private AddUsersToEventUserSwapRepository() {
-        going = new MutableLiveData<>();
-        notGoing = new MutableLiveData<>();
+//        going = new MutableLiveData<>();
+//        notGoing = new MutableLiveData<>();
     }
 
     public static AddUsersToEventUserSwapRepository getRepository() {
@@ -61,14 +66,14 @@ public class AddUsersToEventUserSwapRepository {
     public void setNotGoingAdapter(UserListAdapter notGoingAdapter) {
         this.notGoingAdapter = notGoingAdapter;
     }
-
-    public MutableLiveData<List<User>> getGoing() {
-        return going;
-    }
-
-    public MutableLiveData<List<User>> getNotGoing() {
-        return notGoing;
-    }
+//
+//    public MutableLiveData<List<User>> getGoing() {
+//        return going;
+//    }
+//
+//    public MutableLiveData<List<User>> getNotGoing() {
+//        return notGoing;
+//    }
 
     public void updateGoing(List<User> list) {
         goingAdapter.setUsers(list);
@@ -78,7 +83,23 @@ public class AddUsersToEventUserSwapRepository {
         notGoingAdapter.setUsers(list);
     }
 
-    public void simulate() {
-        new UserDbHandler(repository);
+    public void fetchDataFromDatabase(Event event, Button butt) {
+        new UserDbHandler(repository, event);
+        butt.setOnClickListener(new ClickApply(event));
+    }
+
+    class ClickApply implements View.OnClickListener {
+
+        private Event event;
+
+        public ClickApply(Event event) {
+            this.event = event;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.w("asd", event.get_id() + goingAdapter.getUsers().toString());
+            AddUsersDbHandler.writeUsers(goingAdapter.getUsers(), event.get_id());
+        }
     }
 }

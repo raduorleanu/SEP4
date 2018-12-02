@@ -46,10 +46,9 @@ public class AuthHandler {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                FirebaseUser curr = mAuth.getCurrentUser();
 
                 for (DataSnapshot dbName: dataSnapshot.getChildren()) {
-                    if ((dbName.child(curr.getUid()).child("username").getValue() == username) && (dbName.child(curr.getUid()).child("password").getValue() == pass)) exists[0] = true;
+                    if ((dbName.child("username").getValue() == username) && (dbName.child("password").getValue() == pass)) exists[0] = true;
                 }
             }
 

@@ -45,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
 
         handler = new AuthHandler();
 
-//        if (isLoggedIn());
-//        goToMain();
+//        if (isLoggedIn())
+        goToMain();
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +56,11 @@ public class LoginActivity extends AppCompatActivity {
 
 //                if (isLoggedIn()) goToMain();
 
-               if (isAUser(uName,cpass)) goToMain();
+               if (isAUser(uName,cpass)) {
+                   goToMain();
+               }else {
+                   toastMessage("It's not working!!!");
+               }
 //               else toastMessage("You didn't fill in all the fields.");
 
 //               handler.openMyProfile(mAuth.getCurrentUser());

@@ -8,26 +8,30 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import io.github.raduorleanu.sep4.adapters.UserListAdapter;
+import io.github.raduorleanu.sep4.interfaces.IRepository;
 import io.github.raduorleanu.sep4.models.User;
 import io.github.raduorleanu.sep4.repositories.AddUsersToEventUserSwapRepository;
 
 public class UserViewModel extends AndroidViewModel {
 
-    private AddUsersToEventUserSwapRepository repository;
+    private IRepository repository;
     private MutableLiveData<List<User>> users;
 
     public UserViewModel(@NonNull Application application) {
         super(application);
-        repository = AddUsersToEventUserSwapRepository.getRepository();
         users = new MutableLiveData<>();
     }
 
-    public void setGoingAdapter(UserListAdapter adapter) {
-        repository.setGoingAdapter(adapter);
+    public void setRepository(IRepository repository) {
+        this.repository = repository;
     }
 
-    public void setNotGoingAdapter(UserListAdapter adapter) {
-        repository.setNotGoingAdapter(adapter);
+    public void setRightAdapter(UserListAdapter adapter) {
+        repository.setRightAdapter(adapter);
+    }
+
+    public void setLeftAdapter(UserListAdapter adapter) {
+        repository.setLeftAdapter(adapter);
     }
 
     public MutableLiveData<List<User>> getUsers() {

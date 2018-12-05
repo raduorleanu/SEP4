@@ -7,4 +7,9 @@
         android:title="@string/add_new_event"
         app:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/add_friends"
+        android:icon="@drawable/ic_person_add_primary_24dp"
+        android:title="@string/add_new_event"
+        app:showAsAction="ifRoom"/>
+
 </menu>

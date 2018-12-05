@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,8 @@ import io.github.raduorleanu.sep4.util.AddDataToFireBase;
 import io.github.raduorleanu.sep4.viewModels.EventViewModel;
 
 public class MainActivity extends AppCompatActivity {
+
+    private EventListAdapter eventListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
         populateEventsView();
     }
 
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        if(eventListAdapter != null) {
+//            eventListAdapter.clearData();
+//        }
+//    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -51,13 +62,19 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        if(item.getItemId() == R.id.add_friends) {
+            Intent intent = new Intent(this, AddFriendsActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
     private void populateEventsView() {
+//        Log.w("onCreate", "called");
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final EventListAdapter eventListAdapter = new EventListAdapter(this);
+        eventListAdapter = new EventListAdapter(this);
         recyclerView.setAdapter(eventListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

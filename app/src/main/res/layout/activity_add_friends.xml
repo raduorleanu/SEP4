@@ -1,30 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/add_people_apply_button"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/name_field"
+        android:layout_width="223dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/add_people_to_event_apply_button"
-        android:textColor="#fff"
-        android:background="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="76dp"
+        android:hint="@string/add_friends_search_by_name"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/add_people_to_event_description"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""/>
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorAccent"
+        android:text="@string/add_friends_search_button"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.804"
+        app:layout_constraintStart_toEndOf="@+id/name_field"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <Button
+        android:id="@+id/add_friends_apply_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="18dp"
+        android:background="@color/colorAccent"
+        android:text="@string/add_people_to_event_apply_button"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_field" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline8"
@@ -42,11 +70,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/add_people_to_event_friends_that_are_not_going"
+        android:text="@string/add_friends_search_results"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
         app:layout_constraintHorizontal_bias="0.018"
-        app:layout_constraintStart_toStartOf="@+id/add_people_to_event_description"
-        app:layout_constraintTop_toBottomOf="@+id/add_people_to_event_description" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_friends_apply_button" />
 
     <TextView
         android:id="@+id/add_people_to_event_already_going"
@@ -55,40 +83,40 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/add_people_to_event_already_going"
+        android:text="@string/add_friends_will_be_added"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/add_people_to_event_description" />
+        app:layout_constraintTop_toBottomOf="@+id/add_friends_apply_button" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_all_friends"
         android:layout_width="0dp"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent=".45"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_people_to_event_all_friends"
-        tools:listitem="@layout/user_recycle_item"/>
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".45"
+        tools:listitem="@layout/user_recycle_item" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_added_friends"
         android:layout_width="0dp"
         android:layout_height="400dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.363"
         app:layout_constraintStart_toEndOf="@id/recyclerview_all_friends"
         app:layout_constraintTop_toBottomOf="@+id/add_people_to_event_already_going"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent=".45"
-        tools:listitem="@layout/user_recycle_item"/>
-
+        tools:listitem="@layout/user_recycle_item" />
 
 </android.support.constraint.ConstraintLayout>

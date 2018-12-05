@@ -3,6 +3,7 @@ package io.github.raduorleanu.sep4;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class AddNewEventActivity extends AppCompatActivity {
     private EditText eventDate;
     private EditText eventDescription;
     private EditText eventListOfRequirements;
+    //private Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class AddNewEventActivity extends AppCompatActivity {
         eventDate = findViewById(R.id.add_event_date);
         eventDescription = findViewById(R.id.add_event_description);
         eventListOfRequirements = findViewById(R.id.add_event_requirements);
+        //addButton = findViewById(R.id.add_event_add_button);
 
 //        Toolbar t = findViewById(R.id.toolbar_);
 //        setSupportActionBar(t);

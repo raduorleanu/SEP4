@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 import io.github.raduorleanu.sep4.AddFriendsToEventActivity;
 import io.github.raduorleanu.sep4.R;
 import io.github.raduorleanu.sep4.models.Event;
+import io.github.raduorleanu.sep4.util.Constants;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder> {
 
@@ -37,6 +39,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     public void setData(List<Event> events) {
         data = events;
+        Log.w("setData", events.toString());
         notifyDataSetChanged();
     }
 
@@ -51,9 +54,16 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     }
 
     public void addData(Event event) {
-        Log.w("Adapter", "adding to " + data.size() + event.toString());
-        data.add(event);
-        notifyItemInserted(data.size() - 1);
+        if(!data.contains(event)) {
+//            Log.w("Adapter", "adding to " + data.size() + event.toString());
+            data.add(event);
+            notifyItemInserted(data.size() - 1);
+            //notifyDataSetChanged();
+        }
+    }
+
+    public void clearData() {
+        data.clear();
     }
 
     @NonNull
@@ -124,10 +134,14 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, AddFriendsToEventActivity.class);
-            intent.putExtra("eventDescription", clickedEvent.getDescription());
-            intent.putExtra("event", clickedEvent);
-            context.startActivity(intent);
+            if(clickedEvent.getHost().get_id().equals(Constants.currentUser.get_id())) {
+                Intent intent = new Intent(context, AddFriendsToEventActivity.class);
+                intent.putExtra("eventDescription", clickedEvent.getDescription());
+                intent.putExtra("event", clickedEvent);
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context, "That is not your event", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

@@ -1,19 +1,25 @@
 package io.github.raduorleanu.sep4.repositories;
 
-import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
+import io.github.raduorleanu.sep4.AddFriendsActivity;
+import io.github.raduorleanu.sep4.R;
 import io.github.raduorleanu.sep4.adapters.UserListAdapter;
 import io.github.raduorleanu.sep4.databaseHandlers.AddUsersDbHandler;
 import io.github.raduorleanu.sep4.databaseHandlers.UserDbHandler;
+import io.github.raduorleanu.sep4.interfaces.IRepository;
 import io.github.raduorleanu.sep4.models.Event;
 import io.github.raduorleanu.sep4.models.User;
 
-public class AddUsersToEventUserSwapRepository {
+public class AddUsersToEventUserSwapRepository implements IRepository {
 
 //    private MutableLiveData<List<User>> going;
 //    private MutableLiveData<List<User>> notGoing;
@@ -22,17 +28,21 @@ public class AddUsersToEventUserSwapRepository {
     private UserListAdapter notGoingAdapter;
 
     private static AddUsersToEventUserSwapRepository repository;
+    private WeakReference<Button> butt;
+    private static WeakReference<Context> context;
 
-    private AddUsersToEventUserSwapRepository() {
-//        going = new MutableLiveData<>();
-//        notGoing = new MutableLiveData<>();
+    private boolean alone = false;
+
+    private AddUsersToEventUserSwapRepository(Context context) {
+        AddUsersToEventUserSwapRepository.context = new WeakReference<>(context);
     }
 
-    public static AddUsersToEventUserSwapRepository getRepository() {
-        if(repository == null) {
-            repository = new AddUsersToEventUserSwapRepository();
+    public static AddUsersToEventUserSwapRepository getRepository(Context context) {
+        if (repository == null) {
+            repository = new AddUsersToEventUserSwapRepository(context);
             return repository;
         }
+        AddUsersToEventUserSwapRepository.context = new WeakReference<>(context);
         return repository;
     }
 
@@ -49,21 +59,21 @@ public class AddUsersToEventUserSwapRepository {
         }
     }
 
-    public void addToGoing(User user) {
+    private void addToGoing(User user) {
         notGoingAdapter.removeUser(user);
         goingAdapter.addData(user);
     }
 
-    public void removeFromGoing(User user) {
+    private void removeFromGoing(User user) {
         goingAdapter.removeUser(user);
         notGoingAdapter.addData(user);
     }
 
-    public void setGoingAdapter(UserListAdapter goingAdapter) {
+    public void setRightAdapter(UserListAdapter goingAdapter) {
         this.goingAdapter = goingAdapter;
     }
 
-    public void setNotGoingAdapter(UserListAdapter notGoingAdapter) {
+    public void setLeftAdapter(UserListAdapter notGoingAdapter) {
         this.notGoingAdapter = notGoingAdapter;
     }
 //
@@ -83,23 +93,37 @@ public class AddUsersToEventUserSwapRepository {
         notGoingAdapter.setUsers(list);
     }
 
+    public void checkFriendsNumber() {
+        if (butt.get() != null) {
+            butt.get().setText(R.string.add_friends_to_event_you_have_no_friends);
+            alone = true;
+        }
+    }
+
     public void fetchDataFromDatabase(Event event, Button butt) {
         new UserDbHandler(repository, event);
         butt.setOnClickListener(new ClickApply(event));
+        this.butt = new WeakReference<>(butt);
     }
 
     class ClickApply implements View.OnClickListener {
 
         private Event event;
 
-        public ClickApply(Event event) {
+        ClickApply(Event event) {
             this.event = event;
         }
 
         @Override
         public void onClick(View view) {
-            Log.w("asd", event.get_id() + goingAdapter.getUsers().toString());
-            AddUsersDbHandler.writeUsers(goingAdapter.getUsers(), event.get_id());
+            if (!alone) {
+                Log.w("asd", event.get_id() + goingAdapter.getUsers().toString());
+                AddUsersDbHandler.writeUsers(goingAdapter.getUsers(), event.get_id());
+                ((AppCompatActivity) context.get()).finish();
+            } else {
+                Intent intent = new Intent(context.get(), AddFriendsActivity.class);
+                context.get().startActivity(intent);
+            }
         }
     }
 }

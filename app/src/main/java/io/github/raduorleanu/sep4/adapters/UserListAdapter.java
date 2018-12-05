@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.raduorleanu.sep4.R;
+import io.github.raduorleanu.sep4.interfaces.IRepository;
 import io.github.raduorleanu.sep4.models.User;
 import io.github.raduorleanu.sep4.repositories.AddUsersToEventUserSwapRepository;
 
@@ -28,13 +29,13 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
 
     private final LayoutInflater layoutInflater;
     private List<User> users;
-    private AddUsersToEventUserSwapRepository repository;
+    private IRepository repository;
     private int adapterType;
 
-    public UserListAdapter(Context context) {
+    public UserListAdapter(Context context, IRepository repository) {
         layoutInflater = LayoutInflater.from(context);
         users = new ArrayList<>();
-        repository = AddUsersToEventUserSwapRepository.getRepository();
+        this.repository = repository;
     }
 
     public void setUsers(List<User> users) {

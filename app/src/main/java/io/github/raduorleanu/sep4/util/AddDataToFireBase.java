@@ -74,6 +74,12 @@ public class AddDataToFireBase {
         }
         friends.put(Constants.currentUser.get_id(), u);
         database.getReference("friends").setValue(friends);
+        addAllUsers(u);
+    }
+
+    private void addAllUsers(List<User> list) {
+        list.addAll(f.getUsers(40));
+        database.getReference("users").setValue(list);
     }
 
 }

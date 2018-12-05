@@ -89,8 +89,10 @@ public class AddFriendsToEventActivity  extends AppCompatActivity {
     }
 
     public void populateUserViews() {
-        final UserListAdapter goingAdapter = new UserListAdapter(this);
-        final UserListAdapter notGoingAdapter = new UserListAdapter(this);
+        final UserListAdapter goingAdapter = new UserListAdapter(this,
+                AddUsersToEventUserSwapRepository.getRepository(this));
+        final UserListAdapter notGoingAdapter = new UserListAdapter(this,
+                AddUsersToEventUserSwapRepository.getRepository(this));
 
         // adapter type for the repository to know who called
         goingAdapter.setAdapterType(0);
@@ -105,11 +107,13 @@ public class AddFriendsToEventActivity  extends AppCompatActivity {
         UserViewModel goingModel = ViewModelProviders.of(this).get(UserViewModel.class);
         UserViewModel notGoingModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        goingModel.setGoingAdapter(goingAdapter);
-        goingModel.setNotGoingAdapter(notGoingAdapter);
+        goingModel.setRepository(AddUsersToEventUserSwapRepository.getRepository(this));
+        goingModel.setRightAdapter(goingAdapter);
+        goingModel.setLeftAdapter(notGoingAdapter);
 
-        notGoingModel.setGoingAdapter(goingAdapter);
-        notGoingModel.setNotGoingAdapter(notGoingAdapter);
+        notGoingModel.setRepository(AddUsersToEventUserSwapRepository.getRepository(this));
+        notGoingModel.setRightAdapter(goingAdapter);
+        notGoingModel.setLeftAdapter(notGoingAdapter);
 
         goingModel.getUsers().observe(this, new Observer<List<User>>() {
             @Override
@@ -127,7 +131,7 @@ public class AddFriendsToEventActivity  extends AppCompatActivity {
             }
         });
 
-        AddUsersToEventUserSwapRepository.getRepository().fetchDataFromDatabase(event, applyButton);
+        AddUsersToEventUserSwapRepository.getRepository(this).fetchDataFromDatabase(event, applyButton);
 
     }
 }

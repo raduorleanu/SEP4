@@ -2,6 +2,7 @@ package io.github.raduorleanu.sep4.models;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Event implements Serializable {
@@ -109,5 +110,19 @@ public class Event implements Serializable {
                 ", location='" + location + '\'' +
                 ", requirements=" + requirements +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(_id, event._id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(_id);
     }
 }

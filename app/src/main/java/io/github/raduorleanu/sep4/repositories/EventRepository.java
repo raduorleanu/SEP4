@@ -1,6 +1,7 @@
 package io.github.raduorleanu.sep4.repositories;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class EventRepository {
     }
 
     public void updateData(List<Event> dataList) {
+//        Log.w("repo-update", dataList.toString());
         adapter.setData(dataList);
     }
 

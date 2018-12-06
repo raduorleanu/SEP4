@@ -33,7 +33,10 @@ public class EventDbHandler {
 
     public void addListeners() {
 
+//        Log.w("addListeners", "called");
+
         dbReference.addListenerForSingleValueEvent(new ReadOnceEvent());
+//        dbReference.addValueEventListener(new ReadOnceEvent());
         dbReference.addChildEventListener(new ChangeEvent());
     }
 
@@ -76,17 +79,19 @@ public class EventDbHandler {
 
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            if(dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+//            Log.w("ReadOnce", "called");
 
-                Log.w("ReadOnce", "called");
+            if(dataSnapshot.exists() && dataSnapshot.getValue() != null) {
 
                 List<Event> arr = new ArrayList<>();
 
                 for(DataSnapshot s : dataSnapshot.getChildren()) {
                     Event value = s.getValue(Event.class);
 
+
                     if(value != null) {
                         arr.add(value);
+                        Log.w("ReadOnce", value.toString());
                     } else {
                         Log.w("data-snap", "value was null");
                     }
@@ -97,7 +102,7 @@ public class EventDbHandler {
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            Log.w("Db cancelled", databaseError.getMessage());
         }
     }
 }

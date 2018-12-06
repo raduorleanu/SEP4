@@ -1,6 +1,7 @@
 package io.github.raduorleanu.sep4.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -10,21 +11,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.raduorleanu.sep4.AddFriendsToEventActivity;
 import io.github.raduorleanu.sep4.R;
 import io.github.raduorleanu.sep4.models.Event;
+import io.github.raduorleanu.sep4.util.Constants;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder> {
 
     private final LayoutInflater mInflater;
     private List<Event> data;
+    private Context context;
 
     public EventListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
+        this.context = context;
         this.data = new ArrayList<>();
 //        this.data.add(new Event(new User("Momo"), "karaoke"));
 //        this.data.add(new Event(new User("Mina"), "cooking"));
@@ -32,6 +39,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     public void setData(List<Event> events) {
         data = events;
+        Log.w("setData", events.toString());
         notifyDataSetChanged();
     }
 
@@ -39,15 +47,23 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         for(int i = 0; i < data.size(); i++) {
             if(data.get(i).get_id().equals(event.get_id())) {
                 data.remove(i);
-                notifyItemChanged(i);
+                notifyItemRemoved(i);
+                notifyItemRangeChanged(i, getItemCount());
             }
         }
     }
 
     public void addData(Event event) {
-        Log.w("Adapter", "adding to " + data.size() + event.toString());
-        data.add(event);
-        notifyItemInserted(data.size() - 1);
+        if(!data.contains(event)) {
+//            Log.w("Adapter", "adding to " + data.size() + event.toString());
+            data.add(event);
+            notifyItemInserted(data.size() - 1);
+            //notifyDataSetChanged();
+        }
+    }
+
+    public void clearData() {
+        data.clear();
     }
 
     @NonNull
@@ -66,6 +82,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             eventViewHolder.eventUserName.setText(event.getHost().getName());
             eventViewHolder.eventItem.setOnClickListener(new ItemClicked(event, eventViewHolder));
             eventViewHolder.viewCommentsButton.setOnClickListener(new CommentsButtonClicked(event, eventViewHolder));
+            eventViewHolder.addPeopleToEventButton.setOnClickListener(new AddPeopleClicked(event, eventViewHolder));
         } else {
             eventViewHolder.eventDescription.setText("No event");
         }
@@ -101,6 +118,33 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         }
     }
 
+    class AddPeopleClicked implements View.OnClickListener {
+
+        // the event that was clicked containing all the info
+        private Event clickedEvent;
+
+        // the view that was clicked, you can add components by id in the EventViewHolder class
+        // and change how they behave or look
+        private EventListAdapter.EventViewHolder eventViewHolder;
+
+        public AddPeopleClicked(Event event, EventListAdapter.EventViewHolder viewHolder) {
+            clickedEvent = event;
+            eventViewHolder = viewHolder;
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(clickedEvent.getHost().get_id().equals(Constants.currentUser.get_id())) {
+                Intent intent = new Intent(context, AddFriendsToEventActivity.class);
+                intent.putExtra("eventDescription", clickedEvent.getDescription());
+                intent.putExtra("event", clickedEvent);
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context, "That is not your event", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
     class CommentsButtonClicked implements View.OnClickListener {
 
         // the event that was clicked containing all the info
@@ -130,6 +174,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         private final TextView eventUserName;
         private final ConstraintLayout eventItem;
         private final Button viewCommentsButton;
+        private final ImageButton addPeopleToEventButton;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -138,6 +183,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             eventUserName = itemView.findViewById(R.id.event_user_name);
             eventItem = itemView.findViewById(R.id.event_item_view);
             viewCommentsButton = itemView.findViewById(R.id.view_comments_button);
+            addPeopleToEventButton = itemView.findViewById(R.id.view_add_people_to_event_button);
         }
     }
 }

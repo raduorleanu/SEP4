@@ -6,4 +6,19 @@
     <string name="sign_out">Sign Out</string>
     <string name="email">Email</string>
     <string name="uNameHint">Username</string>
+    <string name="add_new_event">add new event</string>
+    <string name="add_event_name">Event name</string>
+    <string name="add_event_date">Event date</string>
+    <string name="add_event_description">Event description</string>
+    <string name="add_list_of_requirements">List of requirements</string>
+    <string name="add_add_button">Add</string>
+    <string name="add_people_to_event_already_going">Invited</string>
+    <string name="add_people_to_event_friends_that_are_not_going">Not invited</string>
+    <string name="suer_recycle_item_unknown">unknown</string>
+    <string name="add_people_to_event_apply_button">apply</string>
+    <string name="add_friends_to_event_you_have_no_friends">You have no friends!</string>
+    <string name="add_friends_search_by_name">Search by name</string>
+    <string name="add_friends_search_button">Search</string>
+    <string name="add_friends_search_results">search results</string>
+    <string name="add_friends_will_be_added">will be added</string>
 </resources>

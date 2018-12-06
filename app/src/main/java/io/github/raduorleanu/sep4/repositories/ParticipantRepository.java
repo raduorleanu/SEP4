@@ -13,9 +13,9 @@ public class ParticipantRepository {
     private MutableLiveData<List<User>> data;
     private ParticipantAdapter adapter;
 
-    public ParticipantRepository() {
+    public ParticipantRepository(String eventId) {
         data = new MutableLiveData<>();
-        new ParticipantDbHandler(this, "attendees");
+        new ParticipantDbHandler(this, "attendees", eventId);
     }
 
     public void setAdapter(ParticipantAdapter adapter) {

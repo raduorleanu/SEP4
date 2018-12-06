@@ -14,15 +14,20 @@ import io.github.raduorleanu.sep4.repositories.ParticipantRepository;
 public class ParticipantViewModel extends AndroidViewModel {
     private ParticipantRepository repository;
     private MutableLiveData<List<User>> users;
+    private String eventId;
 
     public ParticipantViewModel(@NonNull Application application) {
         super(application);
-        repository = new ParticipantRepository();
         users = new MutableLiveData<>();
     }
 
     public void setAdapter(ParticipantAdapter adapter) {
         repository.setAdapter(adapter);
+    }
+
+    public void setEventID(String eventID) {
+        this.eventId = eventID;
+        repository = new ParticipantRepository(eventID);
     }
 
     public MutableLiveData<List<User>> getUsers() {

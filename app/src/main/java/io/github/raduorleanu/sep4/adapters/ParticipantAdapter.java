@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,12 +25,10 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
 
     private final LayoutInflater minflater;
     private List<User> data;
-    private String eventID;
 
-    public ParticipantAdapter(Context context, String eventID) {
+    public ParticipantAdapter(Context context) {
         minflater = LayoutInflater.from(context);
         this.data = new ArrayList<>();
-        this.eventID = eventID;
     }
 
     @NonNull
@@ -77,12 +76,14 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView name;
+        private final ImageView image;
         private final CardView parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.textViewName);
+            image = itemView.findViewById(R.id.imageView2);
             parentLayout = itemView.findViewById(R.id.parrent_layout);
 
         }

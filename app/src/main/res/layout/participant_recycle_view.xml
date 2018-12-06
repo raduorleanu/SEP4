@@ -13,5 +13,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/participantsRecyclerView"/>
+        android:id="@+id/participantsRecyclerView"
+        tools:listitem="@layout/participant_recycle_item"/>
 </android.support.constraint.ConstraintLayout>

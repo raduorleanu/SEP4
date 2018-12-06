@@ -35,12 +35,14 @@ public class ParticipantsActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.participantsRecyclerView);
-        participantsAdapter = new ParticipantAdapter(this, eventID);
+        participantsAdapter = new ParticipantAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(participantsAdapter);
 
         ParticipantViewModel participantViewModel = ViewModelProviders.of(this).get(ParticipantViewModel.class);
+        participantViewModel.setEventID(this.eventID);
         participantViewModel.setAdapter(participantsAdapter);
+
 
         participantViewModel.getUsers().observe(this, new Observer<List<User>>() {
             @Override

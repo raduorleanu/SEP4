@@ -26,47 +26,31 @@ public class ParticipantDbHandler {
     private FirebaseDatabase db;
     private static DatabaseReference dbReference;
 
-    public ParticipantDbHandler(ParticipantRepository repository, String databasePath) {
+    public ParticipantDbHandler(ParticipantRepository repository, String databasePath, String eventId) {
         this.repository = repository;
         this.db = FirebaseProvider.getDb();
-        dbReference = db.getReference(databasePath);
+        dbReference = db.getReference(databasePath + eventId);
         addListeners();
     }
 
     public void addListeners() {
 
         dbReference.addListenerForSingleValueEvent(new ReadOnceParticipant());
-        dbReference.addChildEventListener(new ChangeParticipant());
+        dbReference.addValueEventListener(new ChangeParticipant());
     }
 
-    private class ChangeParticipant implements ChildEventListener {
+    private class ChangeParticipant implements ValueEventListener {
+
 
         @Override
-        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            if (dataSnapshot.exists()) {
-                for (DataSnapshot temp : dataSnapshot.getChildren()) {
-                    User user = temp.getValue(User.class);
-                    repository.insertData(user);
-                }
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            List<User> tempUsers = new ArrayList<>();
+            for (DataSnapshot data : dataSnapshot.getChildren()) {
+                User user = data.getValue(User.class);
+
+                tempUsers.add(user);
             }
-        }
-
-        @Override
-        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-            if (dataSnapshot.exists()) {
-                User user = dataSnapshot.getValue(User.class);
-                repository.removeData(user);
-            }
-        }
-
-        @Override
-        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+            repository.updateData(tempUsers);
         }
 
         @Override
@@ -79,22 +63,17 @@ public class ParticipantDbHandler {
 
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            if(dataSnapshot.exists() && dataSnapshot != null){
+            if (dataSnapshot.exists() && dataSnapshot != null) {
 
                 List<User> temp = new ArrayList<>();
 
-                for (DataSnapshot data: dataSnapshot.getChildren()) {
-                    for (DataSnapshot ds: data.getChildren()) {
-                        User user = ds.getValue(User.class);
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    User user = data.getValue(User.class);
 
-
-
-                        if (user != null) {
-                            Log.e(TAG, "User were added");
-                            temp.add(user);
-                        }
+                    if (user != null) {
+                        Log.e(TAG, "User were added");
+                        temp.add(user);
                     }
-
                 }
                 repository.updateData(temp);
             }

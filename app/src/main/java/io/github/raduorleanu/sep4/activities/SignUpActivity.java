@@ -45,7 +45,6 @@ public class SignUpActivity extends AppCompatActivity {
         handler = new AuthHandler();
 
         nameEdit = findViewById(R.id.sign_up_name);
-        unameEdit = findViewById(R.id.sign_up_uName);
         addrEdit = findViewById(R.id.sign_up_addr);
         emailEdit = findViewById(R.id.sign_up_email);
         passEdit = findViewById(R.id.sign_up_password);
@@ -55,13 +54,14 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                if(!handler.checkNewUName(unameEdit.getText().toString())) {toastMessage("Username is taken"); return;}
+                toastMessage(emailEdit.getText().toString() + " " + passEdit.getText().toString());
                 createAccount(emailEdit.getText().toString(), passEdit.getText().toString());
-                signIn(emailEdit.getText().toString(), passEdit.getText().toString());
+//                signIn(emailEdit.getText().toString(), passEdit.getText().toString());
             }
         });
     }
 
-    public void createAccount(final String email, String password){
+    public void createAccount(final String email, final String password){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -70,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithUsername:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            signIn(email, password);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithUsername:failure", task.getException());
@@ -111,7 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void addUserToDb(){
-        User newUser = new User(unameEdit.getText().toString(),nameEdit.getText().toString(), addrEdit.getText().toString(),emailEdit.getText().toString(),passEdit.getText().toString() ,"");
+        User newUser = new User(nameEdit.getText().toString(), addrEdit.getText().toString(),emailEdit.getText().toString(),passEdit.getText().toString() ,"");
         handler.createUser(newUser);
     }
 

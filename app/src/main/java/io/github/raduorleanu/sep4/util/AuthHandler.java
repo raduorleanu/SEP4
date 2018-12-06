@@ -60,14 +60,20 @@ public class AuthHandler {
         return exists[0];
     }
 
-    public boolean checkNewUName(final String newUname) {
-        final boolean[] exists = {false};
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    public User getUser(String uid) {
+        DatabaseReference myUserRef = database.getReference(uid);
+        final User[] users = new User[1];
+
+        myUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dbName: dataSnapshot.getChildren()) {
-                    if (dbName.child(mAuth.getCurrentUser().getUid()).child("Username").getValue().toString() == newUname) exists[0] = true;
-                }
+                User e = new User();
+                e.setName(dataSnapshot.child("name").getValue().toString());
+                e.setEmail(dataSnapshot.child("email").getValue().toString());
+                e.setAddress(dataSnapshot.child("address").getValue().toString());
+                e.setPassword(dataSnapshot.child("password").getValue().toString());
+                e.setPicture(dataSnapshot.child("picture").getValue().toString());
+                users[0] = e;
             }
 
             @Override
@@ -75,25 +81,7 @@ public class AuthHandler {
 
             }
         });
-        return exists[0];
-    }
-
-    public String getUsername(final FirebaseUser uName) {
-        final String[] exists = {};
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dbName: dataSnapshot.getChildren()) {
-                    exists[0] = dbName.child(uName.getUid()).child("username").getValue().toString();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return exists[0];
+        return users[0];
     }
 
 

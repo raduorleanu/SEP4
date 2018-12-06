@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import io.github.raduorleanu.sep4.R;
 import io.github.raduorleanu.sep4.MainActivity;
 import io.github.raduorleanu.sep4.util.AuthHandler;
+import io.github.raduorleanu.sep4.util.Constants;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static final String TAG = "LoginActivity";
 
-    private EditText username, password;
+    private EditText email, password;
     private Button signIn, signUp, signOut;
     private AuthHandler handler;
 
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.auth_view);
         mAuth = FirebaseAuth.getInstance();
 
-        username = findViewById(R.id.uNameView);
+        email = findViewById(R.id.emailView);
         password = findViewById(R.id.passView);
         signIn = findViewById(R.id.signInBtn);
         signUp = findViewById(R.id.signUpBtn);
@@ -46,29 +47,27 @@ public class LoginActivity extends AppCompatActivity {
         handler = new AuthHandler();
 
 //        if (isLoggedIn())
+        // toDo - Fix main issues.
         goToMain();
+
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uName = username.getText().toString().trim();
+                String cmail = email.getText().toString().trim();
                 String cpass = password.getText().toString().trim();
 
 //                if (isLoggedIn()) goToMain();
 
-               if (isAUser(uName,cpass)) {
-                   goToMain();
-               }else {
-                   toastMessage("It's not working!!!");
-               }
+//               signIn(cmail,cpass);
 //               else toastMessage("You didn't fill in all the fields.");
 
 //               handler.openMyProfile(mAuth.getCurrentUser());
-//                if (!uName.equals("") && !cpass.equals("")) {
-//                    signIn(uName, cpass);
-//                } else {
-//                    toastMessage("You didn't fill in all the fields.");
-//                }
+                if (!cmail.equals("") && !cpass.equals("")) {
+                    signIn(cmail, cpass);
+                } else {
+                    toastMessage("You didn't fill in all the fields.");
+                }
             }
 
         });
@@ -104,7 +103,8 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             assert user != null;
-                            toastMessage(user.getDisplayName() + " is signed in");
+                            setCurrentConstant(user.getUid());
+                            toastMessage(user.getEmail() + " is signed in");
                             clearFields();
                             goToMain();
                             finish();
@@ -118,12 +118,16 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    private void setCurrentConstant(String uid) {
+        Constants.currentUser = handler.getUser(uid);
+    }
+
     private void toastMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     public void clearFields() {
-        username.setText("");
+        email.setText("");
         password.setText("");
     }
 

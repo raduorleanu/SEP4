@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/uNameView"
+        android:id="@+id/emailView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="85dp"
@@ -19,7 +19,7 @@
 
         android:layout_marginBottom="22dp"
         android:ems="10"
-        android:hint="@string/uNameHint"
+        android:hint="Email"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/passView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toTopOf="@+id/signInBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uNameView" />
+        app:layout_constraintTop_toBottomOf="@+id/emailView" />
 
     <Button
         android:id="@+id/signInBtn"

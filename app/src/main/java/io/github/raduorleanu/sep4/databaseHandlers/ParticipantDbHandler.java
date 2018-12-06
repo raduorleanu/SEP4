@@ -29,7 +29,7 @@ public class ParticipantDbHandler {
     public ParticipantDbHandler(ParticipantRepository repository, String databasePath, String eventId) {
         this.repository = repository;
         this.db = FirebaseProvider.getDb();
-        dbReference = db.getReference(databasePath + eventId);
+        dbReference = db.getReference(databasePath + "/" + eventId);
         addListeners();
     }
 

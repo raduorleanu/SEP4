@@ -1,6 +1,9 @@
 package io.github.raduorleanu.sep4.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.snapshot.DoubleNode;
+
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +51,7 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
         if (data != null) {
             final User user = data.get(i);
             viewHolder.name.setText(user.getName());
+            new DownloadImageAsync(viewHolder.image).execute(user.getPicture());
         }
     }
 
@@ -86,6 +94,32 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
             image = itemView.findViewById(R.id.imageView2);
             parentLayout = itemView.findViewById(R.id.parrent_layout);
 
+        }
+    }
+
+    static class DownloadImageAsync extends AsyncTask<String, Void, Bitmap> {
+
+        WeakReference<ImageView> imageViewWeakReference;
+
+        DownloadImageAsync(ImageView image) {
+            imageViewWeakReference = new WeakReference<>(image);
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String url = urls[0];
+            Bitmap res = null;
+            try {
+                InputStream in = new java.net.URL(url).openStream();
+                res = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.w("download_error", e.getMessage());
+                e.printStackTrace();
+            }
+            return res;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            imageViewWeakReference.get().setImageBitmap(result);
         }
     }
 }

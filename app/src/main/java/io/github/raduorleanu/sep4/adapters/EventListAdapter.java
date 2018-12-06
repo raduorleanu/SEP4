@@ -19,9 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.raduorleanu.sep4.AddFriendsToEventActivity;
+import io.github.raduorleanu.sep4.ParticipantsActivity;
 import io.github.raduorleanu.sep4.R;
 import io.github.raduorleanu.sep4.models.Event;
 import io.github.raduorleanu.sep4.util.Constants;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder> {
 
@@ -75,6 +78,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(@NonNull EventListAdapter.EventViewHolder eventViewHolder, int i) {
+        Log.e(TAG, "onBindViewHolder: called");
         if (data != null) {
             final Event event = data.get(i);
             eventViewHolder.eventDescription.setText(event.getDescription());
@@ -115,6 +119,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             Log.w("event_description -> ", clickedEvent.getDescription());
             Log.w("view_event_username -> ", eventViewHolder.eventUserName.getText().toString());
             eventViewHolder.eventItem.setBackgroundColor(Color.GREEN);
+
+            Intent intent = new Intent(context, ParticipantsActivity.class);
+            intent.putExtra("clicked", clickedEvent);
+            context.startActivity(intent);
         }
     }
 

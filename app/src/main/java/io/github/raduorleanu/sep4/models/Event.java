@@ -8,7 +8,7 @@ import java.util.Random;
 public class Event implements Serializable {
 
     private User host;
-    //private List<User> participants;
+    private List<User> participants;
     private double rating;
     private String date;
     private String description;
@@ -26,7 +26,7 @@ public class Event implements Serializable {
 
     public Event(User host, double rating, String date, String description, String location, List<String> requirements) {
         this.host = host;
-        //this.participants = participants;
+        this.participants = participants;
         this.rating = rating;
         this.date = date;
         this.description = description;

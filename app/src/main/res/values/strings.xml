@@ -4,7 +4,7 @@
     <string name="sign_in_btn">Sign In</string>
     <string name="sign_up_btn">Sign Up</string>
     <string name="sign_out">Sign Out</string>
-    <string name="email">Email</string>
+    <string name="email" translatable="false">Email</string>
     <string name="uNameHint">Username</string>
     <string name="add_new_event">add new event</string>
     <string name="add_event_name">Event name</string>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SEP4</string>
+    <string name="passHint">Kodeord</string>
+    <string name="sign_up_btn">Tilmeld</string>
+    <string name="sign_in_btn">Log ind</string>
+    <string name="sign_out">Log ud</string>
+    <string name="uNameHint">Brugernavn</string>
+    <string name="add_new_event">Tilføj nyt event</string>
+    <string name="add_event_name">Event navn</string>
+    <string name="add_event_date">Event dato</string>
+    <string name="add_event_description">Event beskrivelse</string>
+    <string name="add_list_of_requirements">Liste over krav</string>
+    <string name="add_add_button">Tilføj</string>
+    <string name="add_people_to_event_already_going">Invitret</string>
+    <string name="add_people_to_event_friends_that_are_not_going">Ikke inviteret</string>
+    <string name="suer_recycle_item_unknown">Ukendt</string>
+    <string name="add_people_to_event_apply_button">Anvend</string>
+    <string name="add_friends_to_event_you_have_no_friends">Du har ingen venner!</string>
+    <string name="add_friends_search_by_name">Søg efter navn</string>
+    <string name="add_friends_search_button">Søg</string>
+    <string name="add_friends_search_results">Søgeresultater</string>
+    <string name="add_friends_will_be_added">Vil blive tilføjet</string>
+</resources>

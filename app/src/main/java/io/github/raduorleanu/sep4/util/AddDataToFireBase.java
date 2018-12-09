@@ -25,10 +25,10 @@ public class AddDataToFireBase {
         n = numberOfEvents;
         c = ceilNumberOfUsersAndCommentsPerEvent;
         f = new FakeUser(context);
-        addData();
+        addEvents();
     }
 
-    private void addData() {
+    private void addEvents() {
         Map<String, Event> eventMap = new HashMap<>();
 
         List<Event> events = f.getEvents(n);
@@ -39,15 +39,23 @@ public class AddDataToFireBase {
         database.getReference("events").setValue(eventMap);
         Log.w("db-write", "maybe");
 
-        addRandomComments(events);
         addRandomAttendees(events);
     }
 
-    private void addRandomComments(List<Event> events) {
-        Map<String, List<String>> m = new HashMap<>();
-        Random r = new Random();
-        for (Event e : events) {
-            m.put(e.get_id(), f.getSomeComments(r.nextInt(c)));
+    private void addRandomComments(Map<String, List<User>> events) {
+
+        Map<String, HashMap<String, String>> m = new HashMap<>();
+
+//        Random r = new Random();
+
+        for (Map.Entry<String, List<User>> entry : events.entrySet()) {
+            HashMap<String, String> hm = new HashMap<>();
+            for(User user : entry.getValue()) {
+//                HashMap<String, List<String>> comments = new HashMap<>();
+                hm.put(user.get_id(), f.getSomeComments(1).get(0));
+            }
+            m.put(entry.getKey(), hm);
+//            m.put(e.get_id(), f.getSomeComments(r.nextInt(c)));
         }
         database.getReference("comments").setValue(m);
     }
@@ -59,6 +67,7 @@ public class AddDataToFireBase {
             m.put(e.get_id(), f.getUsers(r.nextInt(c)));
         }
         database.getReference("attendees").setValue(m);
+        addRandomComments(m);
         addMyFriends(m);
     }
 

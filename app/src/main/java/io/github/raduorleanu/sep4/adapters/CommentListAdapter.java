@@ -114,7 +114,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
             commentUserName = itemView.findViewById(R.id.comment_user_name);
             commentUserEmail = itemView.findViewById(R.id.comment_user_email);
             commentText = itemView.findViewById(R.id.comment_text);
-            commentButton = itemView.findViewById(R.id.reply_to_comment_button);
+            commentButton = itemView.findViewById(R.id.reply_button);
         }
     }
 }

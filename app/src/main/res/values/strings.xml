@@ -23,4 +23,5 @@
     <string name="add_friends_will_be_added">will be added</string>
     <string name="reply_btn_text">Reply</string>
     <string name="lack_of_comments">No comments yet.</string>
+    <string name="evvent_comments_button">comments</string>
 </resources>

@@ -21,6 +21,7 @@
         <activity android:name=".AddFriendsActivity" />
         <activity android:name=".activities.SignUpActivity"></activity>
         <activity android:name=".ParticipantsActivity" />
+        <activity android:name=".activities.CommentActivity" />
         <activity android:name=".MainActivity" />
     </application>
 

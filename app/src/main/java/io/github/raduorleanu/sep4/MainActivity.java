@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         //   Give a number of events and a number of maximum users that will attend that event.
         // todo: COMMENT THIS, should only run once to generate database. Uncomment populateEventsView() when commenting this
-         //AddDataToFireBase a = new AddDataToFireBase(3, 8, getBaseContext());
+        //        AddDataToFireBase a = new AddDataToFireBase(4, 12, getBaseContext());
 
         // todo: DON'T FORGET TO comment populateEventsView() when adding data to firebase and uncomment after
         populateEventsView();
@@ -57,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.add_new_event) {
+        if (item.getItemId() == R.id.add_new_event) {
             Intent intent = new Intent(this, AddNewEventActivity.class);
             startActivity(intent);
             return true;
         }
-        if(item.getItemId() == R.id.add_friends) {
+        if (item.getItemId() == R.id.add_friends) {
             Intent intent = new Intent(this, AddFriendsActivity.class);
             startActivity(intent);
             return true;

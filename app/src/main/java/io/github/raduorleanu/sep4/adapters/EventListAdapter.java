@@ -21,6 +21,7 @@ import java.util.List;
 import io.github.raduorleanu.sep4.AddFriendsToEventActivity;
 import io.github.raduorleanu.sep4.ParticipantsActivity;
 import io.github.raduorleanu.sep4.R;
+import io.github.raduorleanu.sep4.activities.CommentActivity;
 import io.github.raduorleanu.sep4.models.Event;
 import io.github.raduorleanu.sep4.util.Constants;
 
@@ -172,6 +173,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             Log.w("event_description -> ", clickedEvent.getDescription());
             Log.w("view_event_username -> ", eventViewHolder.eventUserName.getText().toString());
             eventViewHolder.eventItem.setBackgroundColor(Color.GREEN);
+
+            Intent intent = new Intent(context, CommentActivity.class);
+            intent.putExtra("comment", clickedEvent);
+            context.startActivity(intent);
         }
     }
 

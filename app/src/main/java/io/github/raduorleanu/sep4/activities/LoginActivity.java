@@ -46,10 +46,9 @@ public class LoginActivity extends AppCompatActivity {
 
         handler = new AuthHandler();
 
-//        if (isLoggedIn())
-        // toDo - Fix main issues.
-        goToMain();
 
+
+        if (isLoggedIn()) logOut();
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 String cmail = email.getText().toString().trim();
                 String cpass = password.getText().toString().trim();
 
-//                if (isLoggedIn()) goToMain();
+                if (isLoggedIn()) goToMain();
 
 //               signIn(cmail,cpass);
 //               else toastMessage("You didn't fill in all the fields.");
@@ -89,11 +88,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-    public boolean isAUser(String username, String pass){
-        return handler.checkUser(username, pass);
-    }
-
     public void signIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -103,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             assert user != null;
-                            setCurrentConstant(user.getUid());
                             toastMessage(user.getEmail() + " is signed in");
                             clearFields();
                             goToMain();
@@ -116,10 +109,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 });
-    }
-
-    private void setCurrentConstant(String uid) {
-        Constants.currentUser = handler.getUser(uid);
     }
 
     private void toastMessage(String message) {

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         //  AddDataToFireBase a = new AddDataToFireBase(4, 12, getBaseContext());
 
         // todo: DON'T FORGET TO comment populateEventsView() when adding data to firebase and uncomment after
-        populateEventsView();
+//        populateEventsView();
     }
 
 //    @Override

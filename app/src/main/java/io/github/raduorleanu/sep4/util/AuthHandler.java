@@ -27,18 +27,23 @@ public class AuthHandler {
     private static final String TAG = "AuthHandler";
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
-    private DatabaseReference userRef;
+    private DatabaseReference userRef, userNameRef;
 
     public AuthHandler() {
         mAuth = FirebaseAuth.getInstance();
         // Write a message to the database
         database = FirebaseDatabase.getInstance();
-        userRef = database.getReference("Users");
+
 
     }
 
     public void createUser(User newUser) {
+        userRef = database.getReference("Users");
+        userNameRef = database.getReference("usernames");
+
         userRef.child(mAuth.getCurrentUser().getUid()).setValue(newUser);
+        userNameRef.child(newUser.getName()).setValue(newUser);
+
     }
 
     public boolean checkUser( final String username, final String pass) {
@@ -59,37 +64,4 @@ public class AuthHandler {
         });
         return exists[0];
     }
-
-    public User getUser(String uid) {
-        DatabaseReference myUserRef = database.getReference(uid);
-        final User[] users = new User[1];
-
-        myUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User e = new User();
-                e.setName(dataSnapshot.child("name").getValue().toString());
-                e.setEmail(dataSnapshot.child("email").getValue().toString());
-                e.setAddress(dataSnapshot.child("address").getValue().toString());
-                e.setPassword(dataSnapshot.child("password").getValue().toString());
-                e.setPicture(dataSnapshot.child("picture").getValue().toString());
-                users[0] = e;
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return users[0];
-    }
-
-
-//    public User openMyProfile(FirebaseUser currentUser) {
-////        toDo - Either implement with Uid or find iteration for children
-//
-//        userRef.child(currentUser.getUid())
-//
-//        return null;
-//    }
 }
